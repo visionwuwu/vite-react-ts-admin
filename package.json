@@ -43,6 +43,10 @@
     }
   },
   "lint-staged": {
+    "tests/**/*.test.{ts,tsx,js,jsx}": [
+      "npm run test:nowatch",
+      "git add"
+    ],
     "*.{ts,tsx,js,jsx}": [
       "prettier --write",
       "eslint --fix",
