@@ -1,0 +1,41 @@
+.ant-modal-close:hover {
+  .fullscreen-icon {
+    svg {
+      color: #8c8c8c;
+    }
+  }
+}
+// 修改icon颜色字体大小
+.close-icon-wrapper {
+  .fullscreen-icon {
+    svg {
+      color: #8c8c8c;
+      font-size: 16;
+      fill: #8c8c8c;
+      transition: color 0.3s ease;
+    }
+  }
+  .fullscreen-icon:hover {
+    svg {
+      color: #404040;
+    }
+  }
+}
+
+// 全屏下将弹框样式
+.fullscreen-modal .ant-modal {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100%;
+  margin: auto 0 !important;
+  padding-bottom: 0 !important;
+  max-width: 100% !important;
+}
+
+// 全屏下将弹框内容高度设置为100%
+.fullscreen-modal .ant-modal-content {
+  height: 100%;
+}

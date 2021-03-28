@@ -1,0 +1,28 @@
+// 路由转场动画
+.fade-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-enter-active,
+.fade-exit-active {
+  transition: all 0.5s ease-out;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-exit {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+@keyframes sidebar-logo-spin {
+  from {
+    transform-origin: center;
+    transform: rotate(0);
+  }
+  to {
+    transform-origin: center;
+    transform: rotate(360deg);
+  }
+}
