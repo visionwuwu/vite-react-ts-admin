@@ -39,7 +39,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test:nowatch && lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
@@ -50,6 +50,10 @@
     ],
     "*.{css,scss,less,md}": [
       "prettier --write",
+      "git add"
+    ],
+    "tests/**/*.test.{ts,tsx}": [
+      "npm run test:nowatch",
       "git add"
     ]
   },
