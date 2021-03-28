@@ -51,10 +51,6 @@
     "*.{css,scss,less,md}": [
       "prettier --write",
       "git add"
-    ],
-    "tests/**/*.test.{ts,tsx}": [
-      "npm run test:nowatch",
-      "git add"
     ]
   },
   "dependencies": {
