@@ -1,9 +1,9 @@
 import React from 'react'
-import {Form, Button, Input, Spin, message} from 'antd'
-import {UserOutlined, LockOutlined} from '@ant-design/icons'
+import {Form, Button, Input, Spin, notification} from 'antd'
 import {login} from 'store/actions'
 import {connect} from 'react-redux'
 import {RouteComponentProps, withRouter} from 'react-router'
+import Icon from 'comps/Icon'
 import './index.less'
 
 type ILoginProps = RouteComponentProps
@@ -14,7 +14,11 @@ const Login: React.FC<ILoginProps & ActionProps> = props => {
   const formSubmit = (values: any) => {
     login(values.username, values.password).then((data: any) => {
       if (data.code === 20000) {
-        message.success('登录成功', 3)
+        notification.success({
+          message: '登录成功',
+          description: `欢迎回来: ${values.username}`,
+          duration: 3,
+        })
         history.push('/dashboard')
       }
     })
@@ -36,7 +40,10 @@ const Login: React.FC<ILoginProps & ActionProps> = props => {
                 },
               ]}
             >
-              <Input prefix={<UserOutlined />} placeholder="用户名" />
+              <Input
+                prefix={<Icon icon="UserOutlined" />}
+                placeholder="用户名"
+              />
             </Form.Item>
             <Form.Item
               name="password"
@@ -50,7 +57,7 @@ const Login: React.FC<ILoginProps & ActionProps> = props => {
             >
               <Input
                 type="password"
-                prefix={<LockOutlined />}
+                prefix={<Icon icon="LockOutlined" />}
                 placeholder="密码"
               />
             </Form.Item>

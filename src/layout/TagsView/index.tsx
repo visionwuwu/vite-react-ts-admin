@@ -1,35 +1,40 @@
 import React, {useCallback, useState, MouseEvent, useRef, useMemo} from 'react'
 import {Tag} from 'antd'
 import {Scrollbars} from 'react-custom-scrollbars'
-import {connect} from 'react-redux'
-import {StoreStateProps} from 'store/reducers'
-import {bindActionCreators, Dispatch} from 'redux'
+import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import {
   removeTagsView,
   closeAllTagsView,
   closeOthersTagView,
 } from 'store/actions'
 import {TagViewProps} from 'store/reducers/tagsView'
-import {RouteComponentProps, withRouter} from 'react-router'
+import {useHistory, useLocation} from 'react-router'
 import useClickOutside from 'hooks/useClickOutside'
+import {useAppDispatch, useAppSelector} from 'root/src/store'
+import {bindActionCreators} from 'redux'
 import './index.less'
 
-type ITagsViewProps = RouteComponentProps
+interface ITagsViewProps {}
 
 interface IMenuPosition {
   left: number
   top: number
 }
 
-const TagsView: React.FC<ITagsViewProps & IProps> = props => {
-  const {
-    location,
-    history,
-    tagsList,
-    removeTagsView,
-    closeAllTagsView,
-    closeOthersTagView,
-  } = props
+const TagsView: React.FC<ITagsViewProps> = () => {
+  const location = useLocation()
+  const history = useHistory()
+  const tagsList = useAppSelector(state => state.tagsView.tagsList)
+  const dispatch = useAppDispatch()
+
+  const actions = bindActionCreators(
+    {
+      removeTagsView,
+      closeAllTagsView,
+      closeOthersTagView,
+    },
+    dispatch,
+  )
 
   const [menuVisible, setMenuVisiable] = useState(false)
   const contextMenuRef = useRef(null)
@@ -69,7 +74,7 @@ const TagsView: React.FC<ITagsViewProps & IProps> = props => {
       if (toTag) {
         history.push(toTag.path)
       }
-      removeTagsView(tag)
+      actions.removeTagsView(tag)
     },
     [tagsList],
   )
@@ -109,14 +114,14 @@ const TagsView: React.FC<ITagsViewProps & IProps> = props => {
   const handleCloseOthersTag = () => {
     if (currentTag) {
       const {path} = currentTag
-      closeOthersTagView(currentTag)
+      actions.closeOthersTagView(currentTag)
       history.push(path)
       setMenuVisiable(false)
     }
   }
 
   const handleCloseAllTags = () => {
-    closeAllTagsView()
+    actions.closeAllTagsView()
     history.push('/dashboard')
     setMenuVisiable(false)
   }
@@ -134,25 +139,32 @@ const TagsView: React.FC<ITagsViewProps & IProps> = props => {
           <div {...props} className="scrollbar-track-vertical" />
         )}
       >
-        <ul className="tags-wrap">
+        <TransitionGroup className="tags-wrap">
           {tagsList.map(tag => {
-            const color = location.pathname === tag.path ? 'geekblue' : 'gold'
+            const color = location.pathname === tag.path ? '#0960BD' : 'purple'
             const closable = tag.path !== '/dashboard'
             return (
-              <li key={tag.path}>
-                <Tag
-                  color={color}
-                  closable={closable}
-                  onClose={handleCloseTag.bind(null, tag)}
-                  onClick={handleClickTag.bind(null, tag)}
-                  onContextMenu={handleOpenContextMenu.bind(null, tag)}
-                >
-                  {tag.title}
-                </Tag>
-              </li>
+              <CSSTransition
+                key={tag.path}
+                timeout={500}
+                classNames="scaleIn"
+                exit={false}
+              >
+                <li key={tag.path}>
+                  <Tag
+                    color={color}
+                    closable={closable}
+                    onClose={handleCloseTag.bind(null, tag)}
+                    onClick={handleClickTag.bind(null, tag)}
+                    onContextMenu={handleOpenContextMenu.bind(null, tag)}
+                  >
+                    {tag.title}
+                  </Tag>
+                </li>
+              </CSSTransition>
             )
           })}
-        </ul>
+        </TransitionGroup>
       </Scrollbars>
       {menuVisible && (
         <ul
@@ -175,25 +187,4 @@ const TagsView: React.FC<ITagsViewProps & IProps> = props => {
   )
 }
 
-const mapStateToProps = (state: StoreStateProps) => ({
-  tagsList: state.tagsView.tagsList,
-  sidebarCollapsed: state.app.sidebarCollapsed,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(
-    {
-      removeTagsView,
-      closeOthersTagView,
-      closeAllTagsView,
-    },
-    dispatch,
-  )
-
-type IProps = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withRouter(TagsView))
+export default TagsView

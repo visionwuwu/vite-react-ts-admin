@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, memo} from 'react'
 import {Table, TableProps} from 'antd'
 import {
   RenderExpandIcon,
@@ -96,4 +96,4 @@ const TreeTable: React.FC<ITreeTableProps> = props => {
   )
 }
 
-export default TreeTable
+export default memo(TreeTable)

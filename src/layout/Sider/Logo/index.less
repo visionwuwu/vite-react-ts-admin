@@ -1,13 +1,14 @@
+@import 'styles/variables.module.less';
 .sidebar-logo-container {
-  line-height: 64px;
-  height: 64px;
-  // background-color: #2b2f3a;
+  line-height: @layout-header-top-h;
+  height: @layout-header-top-h;
+  background-color: #001529;
   overflow: hidden;
   text-align: center;
   .sidebar-logo {
     display: inline-block;
-    width: 60px;
-    height: 60px;
+    width: @layout-header-top-h;
+    height: @layout-header-top-h;
     vertical-align: middle;
     animation: sidebar-logo-spin 10s linear infinite;
   }
@@ -15,7 +16,7 @@
     display: inline-block;
     vertical-align: middle;
     margin-bottom: 0;
-    color: #fff;
+    color: @white;
     font-size: 14px;
     font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
     font-weight: bold;

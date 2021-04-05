@@ -2,14 +2,33 @@ import {UserConfigExport, ConfigEnv} from 'vite'
 import reactRefresh from '@vitejs/plugin-react-refresh'
 import path from 'path'
 import styleImport from 'vite-plugin-style-import'
-// import usePluginImport from 'vite-plugin-importer'
 import {viteMockServe} from 'vite-plugin-mock'
+import config, {EnvName} from './config'
+import lessToJS from 'less-vars-to-js'
+import fs from 'fs'
+
+/** 获取环境变量 */
+const env: EnvName =
+  (process.argv[process.argv.length - 1] as EnvName) || 'development'
+
+/** 当前环境基础配置 */
+const base = config[env]
+
+/** 自定义antd主题 */
+const themeVariables = lessToJS(
+  fs.readFileSync(
+    path.resolve(__dirname, './config/antd-variables.less'),
+    'utf8',
+  ),
+)
 
 // https://vitejs.dev/config/
 export default ({command}: ConfigEnv): UserConfigExport => {
   return {
+    base: base ? base.cdn : './',
     resolve: {
       alias: {
+        root: path.resolve(__dirname, './'),
         '@': path.resolve(__dirname, './src'),
         views: path.resolve(__dirname, './src/views'),
         store: path.resolve(__dirname, './src/store'),
@@ -25,9 +44,7 @@ export default ({command}: ConfigEnv): UserConfigExport => {
     css: {
       preprocessorOptions: {
         less: {
-          modifyVars: {
-            '@primary-color': '#0960BD',
-          },
+          modifyVars: themeVariables,
           javascriptEnabled: true,
         },
       },
@@ -47,11 +64,6 @@ export default ({command}: ConfigEnv): UserConfigExport => {
         supportTs: true,
         localEnabled: command === 'serve',
       }),
-      // usePluginImport({
-      //   libraryName: 'antd',
-      //   libraryDirectory: 'es',
-      //   style: true
-      // })
       styleImport({
         libs: [
           {

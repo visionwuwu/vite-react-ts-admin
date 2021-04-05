@@ -1,6 +1,6 @@
 import React, {ChangeEventHandler, useMemo, useState} from 'react'
 import {Dropdown, Input, Tree, Menu, TreeProps, Empty} from 'antd'
-import {MoreOutlined} from '@ant-design/icons'
+import Icon from 'comps/Icon'
 import Scrollbars from 'react-custom-scrollbars'
 import classnames from 'classnames'
 import {Key, DataNode} from 'rc-tree/lib/interface'
@@ -173,33 +173,28 @@ const VBasicTree: React.FC<IVBasicTreeProps> = props => {
         <div className="flex-1 d-flex align-items-center justify-content-end">
           {renderTreeSearchInput}
           <Dropdown overlay={overlay} placement="bottomLeft">
-            <MoreOutlined style={{cursor: 'pointer'}} />
+            <Icon icon="MoreOutlined" size={18} style={{cursor: 'pointer'}} />
           </Dropdown>
         </div>
       </div>
-      <div
-        className="vbasic-tree-body"
-        style={{height: 'calc(100% - 38px)', padding: '6px 0'}}
-      >
+      <div className="vbasic-tree-body">
         {/* 树形控件 */}
-        <Scrollbars autoHide style={{height: '100%'}}>
-          {treeData.length !== 0 ? (
-            <Tree
-              treeData={generatorTreeData(treeData)}
-              onExpand={handleExpand}
-              expandedKeys={expandedKeys}
-              autoExpandParent={autoExpandParent}
-              {...restProps}
-            />
-          ) : (
+        {treeData.length !== 0 ? (
+          <Tree
+            treeData={generatorTreeData(treeData)}
+            onExpand={handleExpand}
+            expandedKeys={expandedKeys}
+            autoExpandParent={autoExpandParent}
+            {...restProps}
+          />
+        ) : (
+          <Empty />
+        )}
+        {treeData.length !== 0 ? (
+          searchValue.length > 0 && expandedKeys.length === 0 ? (
             <Empty />
-          )}
-          {treeData.length !== 0 ? (
-            searchValue.length > 0 && expandedKeys.length === 0 ? (
-              <Empty />
-            ) : null
-          ) : null}
-        </Scrollbars>
+          ) : null
+        ) : null}
       </div>
     </div>
   )

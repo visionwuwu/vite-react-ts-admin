@@ -7,15 +7,12 @@ import React, {
   useState,
   MouseEvent,
 } from 'react'
-import {Modal, ModalProps, Form, Button, FormInstance} from 'antd'
-import {
-  CloseOutlined,
-  FullscreenExitOutlined,
-  FullscreenOutlined,
-} from '@ant-design/icons'
+import {Modal, ModalProps, Form, Button} from 'antd'
+import Icon from 'comps/Icon'
 import VBasicFormItem, {IFormItemProps} from '../vBasicForm/components/FromItem'
 import {FormContext} from '../vBasicForm/index'
 import classnames from 'classnames'
+import Scrollbars from 'react-custom-scrollbars'
 import './index.less'
 
 /** 打开弹框表单的回调 */
@@ -83,12 +80,12 @@ const VBasicModalForm: React.FC<IVBasicModalFormProps> = forwardRef(
     }
 
     /** 初始化表单项的值 */
-    const setFormItemFieldsValue = (
-      item: IFormItemProps,
-      form: FormInstance,
-    ) => {
-      return
-    }
+    // const setFormItemFieldsValue = (
+    //   item: IFormItemProps,
+    //   form: FormInstance,
+    // ) => {
+    //   return
+    // }
 
     /** 生成最终有用的FormItem字段 */
     const generatorFormFields = useMemo(() => {
@@ -131,17 +128,19 @@ const VBasicModalForm: React.FC<IVBasicModalFormProps> = forwardRef(
       return (
         <div className="close-icon-wrapper">
           {isfullScreen ? (
-            <FullscreenExitOutlined
+            <Icon
+              icon="FullscreenExitOutlined"
               className="fullscreen-icon"
               onClick={toggleFullScreen}
             />
           ) : (
-            <FullscreenOutlined
+            <Icon
+              icon="FullscreenOutlined"
               className="fullscreen-icon"
               onClick={toggleFullScreen}
             />
           )}
-          <CloseOutlined className="mx-3" />
+          <Icon icon="CloseOutlined" className="mx-3" />
         </div>
       )
     }
@@ -160,10 +159,15 @@ const VBasicModalForm: React.FC<IVBasicModalFormProps> = forwardRef(
       }
     })
 
+    /* eslint-disable-next-line */
+    if (ref && !(ref as any).current) {
+      return null
+    }
+
     return (
       <Modal
         title={modalTitle}
-        width={520}
+        width={620}
         wrapClassName={wrapperClasses}
         visible={visible}
         footer={generatorFooter}
@@ -171,16 +175,23 @@ const VBasicModalForm: React.FC<IVBasicModalFormProps> = forwardRef(
         onCancel={handleCloseModalForm}
         {...restProps}
       >
-        <FormContext.Provider value={{form, closeFlag}}>
-          <Form
-            labelAlign="right"
-            labelCol={{span: 5}}
-            form={form}
-            autoComplete="off"
-          >
-            {generatorFormItems()}
-          </Form>
-        </FormContext.Provider>
+        <Scrollbars
+          autoHide
+          autoHeight
+          autoHeightMax={450}
+          autoHideTimeout={500}
+        >
+          <FormContext.Provider value={{form, closeFlag}}>
+            <Form
+              labelAlign="right"
+              labelCol={{span: 4}}
+              form={form}
+              autoComplete="off"
+            >
+              {generatorFormItems()}
+            </Form>
+          </FormContext.Provider>
+        </Scrollbars>
       </Modal>
     )
   },

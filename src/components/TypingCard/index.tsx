@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react'
+import React, {useRef, useEffect, memo} from 'react'
 import {Card} from 'antd'
 import Typing from 'utils/typing'
 
@@ -38,4 +38,4 @@ TypingCard.defaultProps = {
   source: '',
 }
 
-export default TypingCard
+export default memo(TypingCard)

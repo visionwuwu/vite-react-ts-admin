@@ -1,9 +1,10 @@
-import React, {useEffect, useState, RefObject} from 'react'
-import {FullscreenExitOutlined, FullscreenOutlined} from '@ant-design/icons'
+import React, {useEffect, useState, RefObject, memo} from 'react'
 import screenfull, {Screenfull} from 'screenfull'
 import {message, Tooltip} from 'antd'
 import classnames from 'classnames'
 import {isElement} from 'utils/utils'
+import Icon from '../Icon'
+import variables from 'styles/variables.module.less'
 import './index.less'
 
 interface IFullScreenProps {
@@ -84,13 +85,15 @@ const FullScreen: React.FC<IFullScreenProps> = props => {
     >
       <Tooltip placement="bottom" title={title}>
         {isfullScreen ? (
-          <FullscreenExitOutlined
+          <Icon
+            icon="FullscreenExitOutlined"
             style={iconStyle}
             className={classes}
             onClick={toggleFullScreen}
           />
         ) : (
-          <FullscreenOutlined
+          <Icon
+            icon="FullscreenOutlined"
             style={iconStyle}
             className={classes}
             onClick={toggleFullScreen}
@@ -102,9 +105,9 @@ const FullScreen: React.FC<IFullScreenProps> = props => {
 }
 
 FullScreen.defaultProps = {
-  size: 25,
-  color: '#595959',
+  size: 16,
+  color: variables['primary-text'],
   target: document.documentElement,
 }
 
-export default FullScreen
+export default memo(FullScreen)

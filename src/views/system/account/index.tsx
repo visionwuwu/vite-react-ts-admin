@@ -1,7 +1,8 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
-import {Tag, Avatar, Button, Divider, Popconfirm, message} from 'antd'
+import {Tag, Avatar, Button, Divider, Popconfirm, message, Row, Col} from 'antd'
 import {DeleteOutlined, FormOutlined} from '@ant-design/icons'
 import VBasicModalForm, {ModalFormImperativeProps} from 'comps/VBasicModalForm'
+import {IFormItemProps} from 'comps/vBasicForm/components/FromItem'
 import VBasicTable from 'comps/VBasicTable'
 import VBasicTree from 'comps/VBasicTree'
 import {addUser, getUserList, updateUser} from 'apis/user'
@@ -44,7 +45,7 @@ const Account: React.FC<IAccountProps> = () => {
       title: '用户名',
       dataIndex: 'username',
       align: 'center',
-      width: 150,
+      width: 80,
     },
     {
       key: 2,
@@ -65,14 +66,14 @@ const Account: React.FC<IAccountProps> = () => {
       title: '邮箱',
       dataIndex: 'email',
       align: 'center',
-      width: 150,
+      width: 180,
     },
     {
       key: 5,
       title: '头像',
       dataIndex: 'avatar',
       align: 'center',
-      width: 150,
+      width: 100,
       // eslint-disable-next-line
       render: url => {
         return <Avatar src={url} />
@@ -90,14 +91,14 @@ const Account: React.FC<IAccountProps> = () => {
       title: '角色',
       dataIndex: 'roles',
       align: 'center',
-      width: 150,
+      width: 100,
     },
     {
       key: 8,
       title: '状态',
       dataIndex: 'status',
       align: 'center',
-      width: 150,
+      width: 100,
       // eslint-disable-next-line
       render: (status: any) => {
         const color = status ? 'geekblue' : 'green'
@@ -133,7 +134,7 @@ const Account: React.FC<IAccountProps> = () => {
       },
     },
   ]
-  const formFields: any[] = [
+  const formFields: IFormItemProps[] = [
     {
       type: 'input',
       label: '用户名',
@@ -225,11 +226,23 @@ const Account: React.FC<IAccountProps> = () => {
       type: 'input',
       label: '电话',
       name: 'mobile',
-      value: '',
+      value: '111',
       rules: [
         {
           required: true,
           message: '请输入电话',
+        },
+      ],
+    },
+    {
+      type: 'icon-picker',
+      name: 'menuIcon',
+      label: '菜单图标',
+      value: '',
+      rules: [
+        {
+          required: true,
+          message: '请选择图标',
         },
       ],
     },
@@ -356,6 +369,7 @@ const Account: React.FC<IAccountProps> = () => {
       },
       {
         ...user,
+        menuIcon: 'FileOutlined',
       },
     )
   }
@@ -390,18 +404,15 @@ const Account: React.FC<IAccountProps> = () => {
 
   return (
     <div className="app-container h-full">
-      <div className="d-flex h-full">
-        <div className="w-1/4">
+      <Row gutter={16} className="h-full">
+        <Col lg={5} md={24} sm={24} xs={24}>
           <VBasicTree
             title="部门列表"
             onSelect={handleTreeKeySelect}
             treeData={treeData}
           />
-        </div>
-        <div
-          className="w-3/4"
-          style={{paddingLeft: '16px', overflow: 'hidden'}}
-        >
+        </Col>
+        <Col lg={19} md={24} sm={24} xs={24}>
           <VBasicTable
             dataSource={dataSource}
             columns={columns}
@@ -422,9 +433,8 @@ const Account: React.FC<IAccountProps> = () => {
               pageSize: pagination.pageSize,
             }}
           />
-        </div>
-      </div>
-
+        </Col>
+      </Row>
       {/* 表单弹框 */}
       <VBasicModalForm title="用户" ref={modalFormRef} formItems={formFields} />
     </div>

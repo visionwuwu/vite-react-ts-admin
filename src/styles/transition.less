@@ -1,21 +1,22 @@
 // 路由转场动画
-.fade-enter {
+.fadeInLeft-enter {
   opacity: 0;
   transform: translateX(-30px);
 }
 
-.fade-enter-active,
-.fade-exit-active {
+.fadeInLeft-enter-active,
+.fadeInLeft-exit-active {
   transition: all 0.5s ease-out;
   opacity: 1;
   transform: translateX(0);
 }
 
-.fade-exit {
+.fadeInLeft-exit {
   opacity: 0;
   transform: translateX(30px);
 }
 
+// 旋转动画
 @keyframes sidebar-logo-spin {
   from {
     transform-origin: center;
@@ -25,4 +26,42 @@
     transform-origin: center;
     transform: rotate(360deg);
   }
+}
+
+// 向里面缩放
+.scaleIn-enter {
+  transform: scale(0.8);
+  opacity: 0;
+}
+
+.scaleIn-enter-active {
+  transition: all 0.1s ease-out;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.scaleIn-exit-active {
+  transition: all 0.2s ease-out;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.scaleIn-exit {
+  opacity: 0;
+  transform: scale(0);
+}
+
+// 淡入
+.fadeIn-enter {
+  opacity: 0;
+}
+
+.fadeIn-enter-active,
+.fadeIn-exit-active {
+  transition: all 0.5s ease-out;
+  opacity: 1;
+}
+
+.fadeIn-exit {
+  opacity: 0;
 }

@@ -1,21 +1,20 @@
-import React, {useEffect, useState} from 'react'
+import React, {memo, useEffect, useState} from 'react'
 import {Menu} from 'antd'
 import {MenuInfo} from 'rc-menu/lib/interface'
-import {Link, withRouter, RouteComponentProps} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import Icon, {createFromIconfontCN} from '@ant-design/icons'
 import menuConfig, {MenuConfig, iconEnmu} from '@/config/menuConfig'
 import defaultSettings from '@/defaultSetting'
 import {isImg, isUrl} from 'utils/utils'
-import {connect} from 'react-redux'
-import {StoreStateProps} from 'store/reducers'
+import {useAppDispatch, useAppSelector} from 'store/index'
 import {RoleName} from '@/config/routeMap'
-import {bindActionCreators, Dispatch} from 'redux'
 import {addTagsView} from 'store/actions'
 import {getMenuItemInMenuListByProperty} from 'utils/index'
 import Scrollbars from 'react-custom-scrollbars'
+import variables from 'styles/variables.module.less'
 import './index.less'
 
-type IMenuProps = RouteComponentProps
+interface IMenuProps {}
 
 const IconFont = createFromIconfontCN({
   scriptUrl: defaultSettings.iconfontUrl,
@@ -39,12 +38,15 @@ const getIcon = (icon?: string | React.ReactNode): React.ReactNode => {
   return icon
 }
 
-const MenuContainer: React.FC<IMenuProps & IProps> = props => {
-  const {location, roles, addTagsView} = props
+const MenuContainer: React.FC<IMenuProps> = () => {
+  const location = useLocation()
+  const roles = useAppSelector(state => state.user.roles)
+  const sidebarCollapsed = useAppSelector(state => state.app.sidebarCollapsed)
+  const dispatch = useAppDispatch()
 
   const path: string = location.pathname
 
-  const openKeys: string[] = []
+  const defaultOpenKeys: string[] = []
 
   const [menuList, setMenuList] = useState<MenuConfig[]>([])
 
@@ -87,7 +89,7 @@ const MenuContainer: React.FC<IMenuProps & IProps> = props => {
     if (item.children && item.children.length > 0) {
       const cItem = item.children.find(c => path.indexOf(c.path) === 0)
       if (cItem) {
-        openKeys.push(item.path)
+        defaultOpenKeys.push(item.path)
       }
       node = (
         <Menu.SubMenu
@@ -121,17 +123,19 @@ const MenuContainer: React.FC<IMenuProps & IProps> = props => {
       key as string,
     )
     if (menuItem) {
-      addTagsView({
-        title: menuItem.title,
-        path: menuItem.path,
-      })
+      dispatch(
+        addTagsView({
+          title: menuItem.title,
+          path: menuItem.path,
+        }),
+      )
     }
   }
 
   return (
     <div
       className="sidebar-menu-container"
-      style={{height: 'calc(100% - 64px)'}}
+      style={{height: `calc(100% - ${variables['layout-header-top-h']})`}}
     >
       <Scrollbars autoHide>
         {menuList.map(item => {
@@ -142,7 +146,7 @@ const MenuContainer: React.FC<IMenuProps & IProps> = props => {
               onSelect={handleMenuSelecte}
               key={item.path}
               selectedKeys={[path]}
-              defaultOpenKeys={openKeys}
+              defaultOpenKeys={!sidebarCollapsed ? defaultOpenKeys : []}
             >
               {generatorMenuItem(item)}
             </Menu>
@@ -153,23 +157,4 @@ const MenuContainer: React.FC<IMenuProps & IProps> = props => {
   )
 }
 
-const mapStateToProps = (state: StoreStateProps) => ({
-  roles: state.user.roles,
-  tagsList: state.tagsView.tagsList,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(
-    {
-      addTagsView,
-    },
-    dispatch,
-  )
-
-type IProps = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withRouter(MenuContainer))
+export default memo(MenuContainer)

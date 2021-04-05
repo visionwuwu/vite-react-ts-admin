@@ -7,7 +7,7 @@
     "email": "2021664244@qq.com"
   },
   "private": "false",
-  "homepage": "",
+  "homepage": "https://github.com/visionwuwu/vite-react-ts-admin",
   "license": "Apache-2.0",
   "keywords": [
     "Visionwuwu",
@@ -20,14 +20,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/visionwuwu/vite-react-ts-admin"
   },
   "scripts": {
-    "clean": "rimraf ./build",
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "clean": "rimraf ./dist",
+    "dev": "vite --mode development",
+    "build:beta": "tsc && vite build --mode beta",
+    "build:production": "tsc && vite build --mode production",
     "build-ts": "tsc -p tsconfig.build.json",
-    "build-css": "lessc ./src/styles/index.less ./build/index.css",
+    "build-css": "lessc ./src/styles/index.less ./dist/index.css",
     "serve": "vite preview",
     "lint:fix": "eslint src/**/*.{ts,tsx,js} --fix --no-error-on-unmatched-pattern --max-warnings 10",
     "lint:prettier": "prettier src/**/*.{css,less,scss,md} --write --ignore-unknown",
@@ -61,13 +62,16 @@
     "clipboard": "^2.0.6",
     "countup.js": "^2.0.7",
     "js-cookie": "^2.2.1",
+    "less-vars-to-js": "^1.3.0",
     "mockjs": "^1.1.0",
+    "moment": "^2.29.1",
     "nprogress": "^0.2.0",
-    "react": "^17.0.0",
+    "react": "^17.0.2",
     "react-countup": "^4.3.3",
     "react-custom-scrollbars": "^4.2.1",
     "react-document-title": "^2.0.3",
     "react-dom": "^17.0.0",
+    "react-intl": "^5.15.3",
     "react-loadable": "^5.5.0",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",

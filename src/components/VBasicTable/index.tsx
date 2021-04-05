@@ -18,11 +18,11 @@ import {
 } from 'rc-table/lib/interface'
 import {TablePaginationConfig} from 'antd/lib/table/interface'
 import classnames from 'classnames'
-import {RightOutlined, DownOutlined} from '@ant-design/icons'
 import useTableScrollY from './hooks/useTableScrollY'
 import VBasicForm from '../vBasicForm'
 import {IFormItemProps} from '../vBasicForm/components/FromItem'
 import {defaultPagination} from './default'
+import Icon from 'comps/Icon'
 import './index.less'
 
 interface IVBasicTableProps {
@@ -173,11 +173,19 @@ const VBasicTable: React.FC<IVBasicTableProps> = props => {
       if (expanded) {
         //根据是否可以展开判断
         return (
-          <DownOutlined className="mr-2" onClick={e => onExpand(record, e)} />
+          <Icon
+            icon="DownOutlined"
+            className="mr-2"
+            onClick={e => onExpand(record, e)}
+          />
         )
       } else {
         return (
-          <RightOutlined className="mr-2" onClick={e => onExpand(record, e)} />
+          <Icon
+            icon="RightOutlined"
+            className="mr-2"
+            onClick={e => onExpand(record, e)}
+          />
         )
       }
     } else {
@@ -226,7 +234,7 @@ const VBasicTable: React.FC<IVBasicTableProps> = props => {
         bordered
         rowKey={rowKey}
         loading={loading}
-        scroll={{y: scrollY}}
+        scroll={{y: scrollY, x: 900}}
         title={() => renderTableHeader()}
         rowClassName={classNameFn}
         expandable={expandable}

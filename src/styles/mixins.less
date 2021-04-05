@@ -1,0 +1,94 @@
+// 美化滚动条
+.scrollbar(
+  @thumbBg: #c8c9cB,
+  @trackBg: #e6e6e6,
+  @scrollWidth: 7px,
+  @scrollHeight: 7px,
+) {
+  //滚动条整体部分
+  &::-webkit-scrollbar {
+    width: @scrollWidth; //y轴滚动条粗细
+    height: @scrollHeight; //x轴滚动条粗细
+  }
+
+  //滚动条里面的小方块，能上下左右移动（取决于是垂直滚动条还是水平滚动条）
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: @thumbBg;
+    margin-bottom: 10px;
+  }
+  // 鼠标hover上去的小方块颜色
+  &::-webkit-scrollbar-thumb {
+    &:hover {
+      background: darken(#c8c9cb, 10%);
+    }
+  }
+  //滚动条的轨道（里面装有thumb）滚动槽
+  &::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: @trackBg; //滚动槽背景色
+  }
+}
+
+// 全局色弱
+.week-mode {
+  filter: invert(80%);
+}
+
+// 灰度模式
+.gray-mode {
+  filter: grayscale(100%);
+}
+
+// mixins for clearfix
+// ------------------------
+.clearfix() {
+  zoom: 1;
+  &::before,
+  &::after {
+    display: table;
+    content: ' ';
+  }
+  &::after {
+    clear: both;
+    height: 0;
+    font-size: 0;
+    visibility: hidden;
+  }
+}
+
+// 单行溢出打点
+.textOverflow() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+// 多行溢出打点
+.textOverflowMulti(@line: 3, @bg: #fff) {
+  position: relative;
+  max-height: @line * 1.5em;
+  margin-right: -1em;
+  padding-right: 1em;
+  overflow: hidden;
+  line-height: 1.5em;
+  text-align: justify;
+  &::before {
+    position: absolute;
+    right: 14px;
+    bottom: 0;
+    padding: 0 1px;
+    background: @bg;
+    content: '...';
+  }
+  &::after {
+    position: absolute;
+    right: 14px;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    background: white;
+    content: '';
+  }
+}

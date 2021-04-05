@@ -36,5 +36,6 @@ module.exports = {
     'react/display-name': [2],
     '@typescript-eslint/no-non-null-assertion': 0,
     'no-self-assign': 0,
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
 }

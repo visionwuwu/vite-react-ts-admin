@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {memo} from 'react'
 import './index.less'
 
 interface IMallkiProps {
@@ -21,4 +21,4 @@ Mallki.defaultProps = {
   text: 'React-Antd-Admin',
 }
 
-export default Mallki
+export default memo(Mallki)

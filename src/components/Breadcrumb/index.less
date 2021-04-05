@@ -1,12 +1,20 @@
 @import 'styles/variables.module.less';
 .breadcrumb-container {
   display: inline-block;
-  vertical-align: 2px;
-  margin-left: 10px;
+  vertical-align: 1px;
+  margin: 0 8px;
+  .ant-breadcrumb,
   .ant-breadcrumb-link {
-    color: @secondary !important;
-    > span {
-      color: inherit;
+    > span,
+    a {
+      color: @text-color-1 !important;
     }
+    > span:hover,
+    a:hover {
+      color: @primary !important;
+    }
+  }
+  &.is-visible {
+    display: none !important;
   }
 }

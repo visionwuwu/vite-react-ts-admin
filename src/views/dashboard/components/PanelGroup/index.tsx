@@ -1,63 +1,83 @@
-import * as React from 'react'
+import React from 'react'
 import {Row, Col} from 'antd'
-import {
-  UserOutlined,
-  MessageOutlined,
-  PayCircleOutlined,
-  ShoppingCartOutlined,
-} from '@ant-design/icons'
+import Icon from 'comps/Icon'
 import './index.less'
 
-interface IPanelGroupProps {}
+interface IPanelGroupProps {
+  handleSetLineChartData: (type: string) => void
+}
 
-const PanelGroup: React.FC<IPanelGroupProps> = () => {
+interface ChartItemProps {
+  type: string
+  icon: string
+  num: number
+  color: string
+  size: number
+}
+
+const chartList: ChartItemProps[] = [
+  {
+    type: 'NewVisits',
+    icon: 'UserOutlined',
+    num: 102400,
+    color: '#40c9c6',
+    size: 55,
+  },
+  {
+    type: 'Messages',
+    icon: 'MessageOutlined',
+    num: 81212,
+    color: '#36a3f7',
+    size: 55,
+  },
+  {
+    type: 'Purchases',
+    icon: 'PayCircleOutlined',
+    num: 9280,
+    color: '#f4516c',
+    size: 55,
+  },
+  {
+    type: 'Shoppings',
+    icon: 'ShoppingCartOutlined',
+    num: 13600,
+    color: '#f6ab40',
+    size: 55,
+  },
+]
+
+const PanelGroup: React.FC<IPanelGroupProps> = props => {
+  const {handleSetLineChartData} = props
   return (
     <div className="panel-group-container">
       <Row className="panel-group" gutter={20}>
-        <Col className="card-panel-col" lg={6} sm={12} xs={12}>
-          <div className="card-panel-card">
-            <div className="card-panel-icon-wrap">
-              <UserOutlined style={{color: '#40c9c6'}} />
-            </div>
-            <div className="card-panel-description">
-              <p className="card-panel-text">New Visits</p>
-              <span className="card-panel-number">10024</span>
-            </div>
-          </div>
-        </Col>
-        <Col className="card-panel-col" lg={6} sm={12} xs={12}>
-          <div className="card-panel-card">
-            <div className="card-panel-icon-wrap">
-              <MessageOutlined style={{color: '#36a3f7'}} />
-            </div>
-            <div className="card-panel-description">
-              <p className="card-panel-text">Messages</p>
-              <span className="card-panel-number">81212</span>
-            </div>
-          </div>
-        </Col>
-        <Col className="card-panel-col" lg={6} sm={12} xs={12}>
-          <div className="card-panel-card">
-            <div className="card-panel-icon-wrap">
-              <PayCircleOutlined style={{color: '#f4516c'}} />
-            </div>
-            <div className="card-panel-description">
-              <p className="card-panel-text">Purchases</p>
-              <span className="card-panel-number">9280</span>
-            </div>
-          </div>
-        </Col>
-        <Col className="card-panel-col" lg={6} sm={12} xs={12}>
-          <div className="card-panel-card">
-            <div className="card-panel-icon-wrap">
-              <ShoppingCartOutlined style={{color: '#f6ab40'}} />
-            </div>
-            <div className="card-panel-description">
-              <p className="card-panel-text">Shoppings</p>
-              <span className="card-panel-number">13600</span>
-            </div>
-          </div>
-        </Col>
+        {chartList.map((chart, i) => {
+          return (
+            <Col
+              key={i}
+              className="card-panel-col"
+              lg={6}
+              md={6}
+              sm={24}
+              xs={24}
+              onClick={handleSetLineChartData.bind(null, chart.type)}
+            >
+              <div className="card-panel-card">
+                <div className="card-panel-icon-wrap">
+                  <Icon
+                    size={chart.size}
+                    icon={chart.icon as any}
+                    color={chart.color}
+                  />
+                </div>
+                <div className="card-panel-description">
+                  <p className="card-panel-text">{chart.type}</p>
+                  <span className="card-panel-number">{chart.num}</span>
+                </div>
+              </div>
+            </Col>
+          )
+        })}
       </Row>
     </div>
   )

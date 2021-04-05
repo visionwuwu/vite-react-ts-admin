@@ -1,12 +1,13 @@
-import * as React from 'react'
+import React, {memo} from 'react'
 import {Row, Col, Button} from 'antd'
 import notFound from 'assets/images/404.png'
-import {RouteComponentProps, withRouter} from 'react-router'
+import {useHistory} from 'react-router'
 import './index.less'
 
-type INotFoundProps = RouteComponentProps
+interface INotFoundProps {}
 
-const NotFound: React.FC<INotFoundProps> = props => {
+const NotFound: React.FC<INotFoundProps> = () => {
+  const history = useHistory()
   return (
     <div className="not-found-page">
       <Row>
@@ -16,10 +17,7 @@ const NotFound: React.FC<INotFoundProps> = props => {
         <Col span={12} className="right">
           <h1>404</h1>
           <h2>抱歉，你访问的页面不存在</h2>
-          <Button
-            type="primary"
-            onClick={() => props.history.push('/dashboard')}
-          >
+          <Button type="primary" onClick={() => history.push('/dashboard')}>
             回到首页
           </Button>
         </Col>
@@ -28,4 +26,4 @@ const NotFound: React.FC<INotFoundProps> = props => {
   )
 }
 
-export default withRouter(React.memo(NotFound))
+export default memo(NotFound)

@@ -50,9 +50,11 @@ export const getUserinfo = (token: string) => (
       .then(response => {
         const data = response.data as ResponseData
         if (data.code === 20000) {
-          const userinfo = data.data
-          dispatch(setUserinfo(userinfo))
-          resolve(data)
+          setTimeout(() => {
+            const userinfo = data.data
+            dispatch(setUserinfo(userinfo))
+            resolve(data)
+          }, 300)
         } else {
           reject(data.message)
         }

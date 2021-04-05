@@ -10,6 +10,7 @@ import {
 } from 'antd'
 import FormTreeSelect from '../FormTreeSelect'
 import FormTree, {FormTreeOuterProps} from '../FormTree'
+import FormIconPicker from '../FormIconPicker'
 import {Rule} from 'rc-field-form/lib/interface'
 
 /** 表单项类型 */
@@ -26,6 +27,7 @@ export type FormItemType =
   | 'radio-group'
   | 'tree-select'
   | 'tree'
+  | 'icon-picker'
 
 export interface IFormItemProps {
   /** 表单项类型 */
@@ -115,6 +117,15 @@ const FormItem: React.FC<IFormItemProps> = props => {
           selectValue={value}
           onFormTreeChange={changeValue}
           {...(othersProps as FormTreeOuterProps)}
+        />
+      )
+      break
+    case 'icon-picker':
+      formItemContent = (
+        <FormIconPicker
+          name={name}
+          selectedIcon={value}
+          onSelectedIcon={changeValue}
         />
       )
       break

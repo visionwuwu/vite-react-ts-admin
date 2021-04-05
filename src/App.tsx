@@ -1,19 +1,42 @@
-import React from 'react'
-import {Provider} from 'react-redux'
-import store from 'store/index'
+import React, {useEffect} from 'react'
 import Router from '@/router/index'
-import {ConfigProvider} from 'antd'
-import zhCN from 'antd/lib/locale/zh_CN'
+import IntlPro from '@/locales'
+import useShallowEqualSelector from 'hooks/useShallowEqualSelector'
+// import Initializer from '@/core/bootstrap'
 
 interface IAppProps {}
 
 const App: React.FC<IAppProps> = () => {
+  const lang = useShallowEqualSelector(state => state.app.lang)
+  const {weekMode, grayMode} = useShallowEqualSelector(state => state.settings)
+
+  const setWeekMode = () => {
+    if (weekMode) {
+      document.documentElement.classList.add('week-mode')
+    } else {
+      document.documentElement.classList.remove('week-mode')
+    }
+  }
+
+  const setGrayMode = () => {
+    if (grayMode) {
+      document.documentElement.classList.add('gray-mode')
+    } else {
+      document.documentElement.classList.remove('gray-mode')
+    }
+  }
+
+  useEffect(() => {
+    setWeekMode()
+  }, [weekMode])
+
+  useEffect(() => {
+    setGrayMode()
+  }, [grayMode])
   return (
-    <ConfigProvider locale={zhCN}>
-      <Provider store={store}>
-        <Router />
-      </Provider>
-    </ConfigProvider>
+    <IntlPro locale={lang}>
+      <Router />
+    </IntlPro>
   )
 }
 

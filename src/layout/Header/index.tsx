@@ -1,94 +1,111 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
-import {Layout, Dropdown, Menu, Avatar, Modal} from 'antd'
-import {CaretDownOutlined, QuestionCircleOutlined} from '@ant-design/icons'
+import React, {memo, useContext, useMemo} from 'react'
+import {Layout} from 'antd'
 import Hamburger from 'comps/Hamburger'
 import Breadcrumb from 'comps/Breadcrumb'
 import FullScreen from 'comps/FullScreen'
+import IntlDropdown from 'comps/IntlDropdown'
+import UserAvatarDropdown from 'comps/UserAvatarDropdown'
 import Setting from 'comps/Setting'
-import {connect} from 'react-redux'
-import {StoreStateProps} from 'store/reducers'
-import store from 'store/index'
-import {logout} from 'store/actions'
+import {useAppDispatch, useAppSelector} from 'store/index'
+import {sidebarCollapsedToggle} from 'store/actions'
 import classnames from 'classnames'
-import avatarImg from '@/assets/images/avatar.jpg'
+import TagsView from '../TagsView'
+import {CSSTransition} from 'react-transition-group'
+import Logo from '../Sider/Logo'
+import {LayoutContext} from '../index'
+import {CollapsedMenuBtnPosition} from 'root/src/defaultSetting'
 const {Header} = Layout
-const {confirm} = Modal
 import './index.less'
 
 interface ILayoutHeaderProps {}
 
-function handleLogout() {
-  confirm({
-    title: '注销',
-    icon: <QuestionCircleOutlined />,
-    content: '确定要退出系统吗?',
-    cancelText: '取消',
-    okText: '确认',
-    visible: false,
-    onOk: () => {
-      store.dispatch<any>(logout())
-      console.log('ok')
-    },
-  })
-}
-
-const menu = (
-  <Menu>
-    <Menu.Item key="home">
-      <Link to="/dashboard">首页</Link>
-    </Menu.Item>
-    <Menu.Item key="project">
-      <a href="https://github.com/visionwuwu/react-antd-admin-visionwu">
-        项目地址
-      </a>
-    </Menu.Item>
-    <Menu.Divider />
-    <Menu.Item onClick={handleLogout}>注销</Menu.Item>
-  </Menu>
-)
-
-const LayoutHeader: React.FC<ILayoutHeaderProps & IProps> = props => {
-  const {fixHeader, sidebarCollapsed} = props
+const LayoutHeader: React.FC<ILayoutHeaderProps> = () => {
+  const sidebarCollapsed = useAppSelector(state => state.app.sidebarCollapsed)
+  const {
+    fixHeader,
+    openTagsView,
+    showBreadcrumb,
+    collapsedMenuBtnPosition,
+    showSidebar,
+  } = useAppSelector(state => state.settings)
+  const dispatch = useAppDispatch()
+  const {drawerVisible, setDrawerVisible, lg} = useContext(LayoutContext)
 
   const classes = classnames('layout-header', {
-    'fix-header': fixHeader,
+    'is-fixed': fixHeader,
+    'hide-tags': !openTagsView,
   })
 
-  const headerStyle = {
-    width: fixHeader
-      ? `calc(100vw - ${sidebarCollapsed ? '80px' : '200px'})`
-      : '100%',
+  const placeholderClasses = classnames('layout-header', {
+    'hide-tags': !openTagsView,
+  })
+
+  const headerStyle = useMemo(() => {
+    if (!lg) return {width: '100%'}
+    if (!showSidebar) return {width: '100%'}
+    if (fixHeader) {
+      return {
+        width: `calc(100vw - ${sidebarCollapsed ? '48px' : '200px'})`,
+      }
+    }
+    return {width: '100%'}
+  }, [fixHeader, sidebarCollapsed, lg, showSidebar])
+
+  const handleHamburgerClick = () => {
+    dispatch(sidebarCollapsedToggle())
   }
+
+  const renderHamburger = useMemo(() => {
+    if (!lg) return null
+    return (
+      collapsedMenuBtnPosition === CollapsedMenuBtnPosition.top && (
+        <Hamburger collapse={sidebarCollapsed} onClick={handleHamburgerClick} />
+      )
+    )
+  }, [collapsedMenuBtnPosition, lg])
+
+  const renderDrawerHamburger = useMemo(() => {
+    if (lg) return null
+    return (
+      <Hamburger
+        collapse={drawerVisible}
+        onClick={() => setDrawerVisible(!drawerVisible)}
+      />
+    )
+  }, [drawerVisible, setDrawerVisible, lg])
 
   return (
     <>
       <Header className={classes} style={headerStyle}>
-        <div className="left-menu">
-          <Hamburger />
-          <Breadcrumb />
+        <div className="layout-header-top">
+          <div className="left-menu">
+            {!lg && <Logo classNames="bg-white" showTitle={false} />}
+            {/* 渲染sidebar */}
+            {renderHamburger}
+            {/* 渲染抽屉sidebar */}
+            {renderDrawerHamburger}
+            {showBreadcrumb ? <Breadcrumb /> : null}
+          </div>
+          <div className="right-menu">
+            <FullScreen />
+            <IntlDropdown />
+            <UserAvatarDropdown />
+            <Setting />
+          </div>
         </div>
-        <div className="right-menu">
-          <FullScreen />
-          <Setting />
-          <Dropdown overlay={menu} placement="bottomCenter">
-            <div className="dropdown-wrapper">
-              <Avatar shape="square" src={avatarImg} size={32}></Avatar>
-              <CaretDownOutlined />
-            </div>
-          </Dropdown>
-        </div>
+        <CSSTransition
+          in={openTagsView}
+          timeout={500}
+          classNames="fadeIn"
+          unmountOnExit
+          exit={false}
+        >
+          <TagsView />
+        </CSSTransition>
       </Header>
-      {fixHeader ? <Header className="layout-header" /> : null}
+      {fixHeader ? <Header className={placeholderClasses} /> : null}
     </>
   )
 }
 
-const mapStateToProps = (state: StoreStateProps) => ({
-  sidebarCollapsed: state.app.sidebarCollapsed,
-  fixHeader: state.settings.fixHeader,
-})
-
-type IProps = ReturnType<typeof mapStateToProps>
-
-export default connect(mapStateToProps)(LayoutHeader)
+export default memo(LayoutHeader)

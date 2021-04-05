@@ -1,0 +1,40 @@
+.icon-picker-modal {
+  .ant-modal-body {
+    padding: 22px !important;
+  }
+  .icon-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    list-style: none;
+    .icon-item {
+      display: flex;
+      padding: 8px;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      width: 32%;
+      margin-bottom: 8px;
+      cursor: pointer;
+      .icon-name {
+        width: 100%;
+        font-size: 14px;
+        margin: 5px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+      }
+      &:hover,
+      &.is-active {
+        border-color: #0960bd;
+      }
+    }
+  }
+}

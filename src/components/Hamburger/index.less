@@ -1,8 +1,15 @@
 @import 'styles/variables.module.less';
 .hamburger-container {
   display: inline-block;
-  font-size: 20px !important;
+  padding: 0 10px;
   cursor: pointer;
-  margin-right: 10px;
-  color: @secondary;
+  transition: background 0.3s ease;
+  &:hover {
+    background-color: @gray-1;
+  }
+  .anticon {
+    font-size: 16px !important;
+    color: @black!important;
+    fill: @black !important;
+  }
 }

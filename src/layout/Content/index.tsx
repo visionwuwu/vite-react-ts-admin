@@ -1,26 +1,18 @@
-import React, {Suspense} from 'react'
+import React, {memo, Suspense} from 'react'
 import {Layout} from 'antd'
-import {
-  Switch,
-  Route,
-  Redirect,
-  withRouter,
-  RouteComponentProps,
-} from 'react-router-dom'
+import {Switch, Route, Redirect, useLocation} from 'react-router-dom'
 import routes, {routeProps} from '@/config/routeMap'
-import {connect} from 'react-redux'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import Loading from 'comps/Loading'
-import {StoreStateProps} from 'store/reducers'
+import {useAppSelector} from 'store/index'
 import DocumentTitle from 'react-document-title'
 import menuConfig from '@/config/menuConfig'
 import {getMenuItemInMenuListByProperty} from 'utils/index'
 import defaultSettings from '@/defaultSetting'
+const {Content} = Layout
 import './index.less'
 
-const {Content} = Layout
-
-type ILayoutContentProps = RouteComponentProps
+interface ILayoutContentProps {}
 
 const getPageTitle = (value: string): string => {
   const item = getMenuItemInMenuListByProperty(menuConfig, 'path', value)
@@ -30,8 +22,9 @@ const getPageTitle = (value: string): string => {
   return defaultSettings.title
 }
 
-const LayoutContent: React.FC<ILayoutContentProps & IProps> = props => {
-  const {location, roles} = props
+const LayoutContent: React.FC<ILayoutContentProps> = () => {
+  const location = useLocation()
+  const roles = useAppSelector(state => state.user.roles)
 
   const filterRoute = (route: routeProps) => {
     return (
@@ -43,16 +36,13 @@ const LayoutContent: React.FC<ILayoutContentProps & IProps> = props => {
 
   return (
     <DocumentTitle title={getPageTitle(location.pathname)}>
-      <Content
-        className="layout-content-container"
-        style={{height: 'calc(100vh - 100px)'}}
-      >
+      <Content className="layout-content-container">
         <Suspense fallback={<Loading />}>
           <TransitionGroup>
             <CSSTransition
               key={location.pathname}
               timeout={500}
-              classNames="fade"
+              classNames="fadeInLeft"
               exit={false}
             >
               <Switch location={location}>
@@ -77,10 +67,4 @@ const LayoutContent: React.FC<ILayoutContentProps & IProps> = props => {
   )
 }
 
-const mapStateToProps = (state: StoreStateProps) => ({
-  roles: state.user.roles,
-})
-
-type IProps = ReturnType<typeof mapStateToProps>
-
-export default connect(mapStateToProps)(withRouter(LayoutContent))
+export default memo(LayoutContent)

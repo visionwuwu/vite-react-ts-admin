@@ -1,38 +1,34 @@
-import React from 'react'
-import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons'
-import {connect} from 'react-redux'
-import {StoreStateProps} from 'store/reducers'
-import {Dispatch} from 'redux'
-import {sidebarCollapsedToggle} from 'store/actions/app'
+import React, {memo, useState} from 'react'
+import Icon from '../Icon'
 import './index.less'
 
-interface IHamburgerProps {}
+interface IHamburgerProps {
+  /** 折叠状态 */
+  collapse?: boolean
+  /** 点击触发的回调 */
+  onClick?: () => void
+}
 
-const Hamburger: React.FC<IHamburgerProps & IProps> = props => {
-  const {sidebarCollapsedToggle} = props
+const Hamburger: React.FC<IHamburgerProps> = props => {
+  const {onClick, collapse} = props
+  const [innerCollapse, setInnerCollapse] = useState(collapse)
+
+  const icon = innerCollapse ? 'MenuUnfoldOutlined' : 'MenuFoldOutlined'
+
+  const handleClick = () => {
+    setInnerCollapse(c => !c)
+    onClick && onClick()
+  }
 
   return (
-    <div className="hamburger-container">
-      {!props.sidebarCollapsed ? (
-        <MenuFoldOutlined onClick={sidebarCollapsedToggle} />
-      ) : (
-        <MenuUnfoldOutlined onClick={sidebarCollapsedToggle} />
-      )}
+    <div className="hamburger-container" onClick={handleClick}>
+      {<Icon icon={icon} />}
     </div>
   )
 }
 
-const mapStateToProps = (state: StoreStateProps) => ({
-  sidebarCollapsed: state.app.sidebarCollapsed,
-})
+Hamburger.defaultProps = {
+  collapse: false,
+}
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  sidebarCollapsedToggle() {
-    dispatch(sidebarCollapsedToggle())
-  },
-})
-
-type IProps = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-export default connect(mapStateToProps, mapDispatchToProps)(Hamburger)
+export default memo(Hamburger)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {memo} from 'react'
 import './index.less'
 
 interface IPageBoxProps {
@@ -10,4 +10,4 @@ const PageBox: React.FC<IPageBoxProps> = () => {
   return <div className="app-container"></div>
 }
 
-export default PageBox
+export default memo(PageBox)

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {memo, useEffect, useState} from 'react'
 import {Table, Tag} from 'antd'
 import {ColumnsType} from 'antd/es/table'
 import {TransactionProps} from 'mock/remoteSearch'
@@ -59,4 +59,4 @@ const TransactionTable: React.FC = () => {
   )
 }
 
-export default TransactionTable
+export default memo(TransactionTable)

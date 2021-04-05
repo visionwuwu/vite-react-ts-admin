@@ -1,5 +1,4 @@
-import React, {useState} from 'react'
-import {Modal, Button} from 'antd'
+import React from 'react'
 import {ColumnsType} from 'antd/lib/table'
 import VBasicTable from 'comps/VBasicTable'
 import './index.less'
@@ -103,8 +102,6 @@ const dataSource = [
 const Menu: React.FC<IMenuProps> = () => {
   const othersNodeHeight = 140
 
-  const [visiable, SetVisiable] = useState(false)
-
   const formItems: any[] = [
     {
       type: 'input',
@@ -145,14 +142,6 @@ const Menu: React.FC<IMenuProps> = () => {
         othersNodeHeight={othersNodeHeight}
         onFinish={handleFinish}
       />
-      <Modal
-        onCancel={() => SetVisiable(false)}
-        visible={visiable}
-        title="modal title"
-      >
-        <p>test ...............</p>
-      </Modal>
-      <Button onClick={() => SetVisiable(!visiable)}>open modal</Button>
     </div>
   )
 }

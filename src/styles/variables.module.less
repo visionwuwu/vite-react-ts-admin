@@ -1,5 +1,6 @@
 // 中性色
 @white: #ffffff;
+@gray-1: #f6f6f6;
 @black: #000000;
 
 // 自然色彩 (红、橙、黄、绿、蓝、淀、紫)
@@ -7,4 +8,52 @@
 
 // 品牌色
 @primary: #0960bd;
-@secondary: #595959;
+
+// 中性色，用于文本，背景，边框，分割线
+@title: rgba(@black, 0.85);
+@primary-text: rgba(@black, 0.85);
+@secondary: rgba(@black, 0.45);
+@disable: rgba(@black, 0.25);
+@border: rgba(@black, 0.15);
+@dividers: rgba(@black, 0.06);
+@background: rgba(@black, 0.04);
+@table-header: rgba(@black, 0.02);
+
+// 布局变量
+@layout-sidebar-w: 200px;
+@layout-sidebar-collapsed-w: 48px;
+
+@layout-header-h: 80px;
+@layout-header-top-h: 48px;
+@layout-header-tags-h: 32px;
+@layout-header-zIndex: 999;
+@layout-fix-header-zIndex: 1000;
+@layout-header-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+
+// 文本颜色
+@text-color-1: rgba(@black, 0.65);
+
+// 导出的颜色变量
+:export {
+  white: @white;
+  gray-1: @gray-1;
+  black: @black;
+
+  red: @red;
+
+  primary: @primary;
+  secondary: @secondary;
+
+  // 布局
+  layout-sidebar-w: @layout-sidebar-w;
+  layout-sidebar-collapsed-w: @layout-sidebar-collapsed-w;
+  layout-header-h: @layout-header-h;
+  layout-header-top-h: @layout-header-top-h;
+  layout-header-tags-h: @layout-header-tags-h;
+  layout-header-zIndex: @layout-header-zIndex;
+  layout-fix-header-zIndex: @layout-fix-header-zIndex;
+  layout-header-box-shadow: @layout-header-box-shadow;
+
+  // 文本
+  primary-text: @primary-text;
+}

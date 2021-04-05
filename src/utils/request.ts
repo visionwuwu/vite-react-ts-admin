@@ -2,6 +2,7 @@ import axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from 'axios'
 import {message, Modal} from 'antd'
 import store from 'store/index'
 import {logout} from 'store/actions'
+import config, {EnvName} from 'root/config'
 
 function dispatchLogout() {
   Modal.confirm({
@@ -19,10 +20,14 @@ function dispatchLogout() {
   })
 }
 
+/** 环境变量 */
+const MODE = import.meta.env.MODE as EnvName
+
+const base = config[MODE]
+
 // 创建axios的实例
 const service = axios.create({
-  baseURL:
-    (import.meta.env.VITE_APP_API_URL as string) || 'http://localhost:3000/api',
+  baseURL: base ? base.apiBaseUrl : 'http://localhost:3000/api',
   timeout: 5000,
 })
 

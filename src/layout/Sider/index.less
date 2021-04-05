@@ -1,0 +1,17 @@
+@import 'styles/variables.module.less';
+.layout-sidebar-container {
+  .ant-menu {
+    width: @layout-sidebar-w;
+  }
+  &.is-collapsed {
+    .ant-menu {
+      width: @layout-sidebar-collapsed-w;
+    }
+  }
+  &.is-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+}

@@ -1,10 +1,6 @@
 import React, {MouseEvent, useContext} from 'react'
 import {Button, Divider, Tooltip, Dropdown, Menu} from 'antd'
-import {
-  RedoOutlined,
-  ColumnHeightOutlined,
-  SettingOutlined,
-} from '@ant-design/icons'
+import Icon from 'comps/Icon'
 import {ToolbarContext} from '../../index'
 import './index.less'
 
@@ -76,7 +72,7 @@ const VBasicTableToolbar: React.FC<IVBasicTableToolbarProps> = props => {
       <Divider type="vertical" />
 
       <Tooltip placement="top" title="刷新">
-        <RedoOutlined onClick={onRefresh} />
+        <Icon icon="RedoOutlined" onClick={onRefresh} />
       </Tooltip>
 
       <Tooltip placement="top" title="密度">
@@ -85,12 +81,12 @@ const VBasicTableToolbar: React.FC<IVBasicTableToolbarProps> = props => {
           placement="bottomCenter"
           trigger={['click']}
         >
-          <ColumnHeightOutlined />
+          <Icon icon="ColumnHeightOutlined" />
         </Dropdown>
       </Tooltip>
 
       <Tooltip title="列设置" placement="top">
-        <SettingOutlined />
+        <Icon icon="SettingOutlined" />
       </Tooltip>
     </div>
   )

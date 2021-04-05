@@ -71,7 +71,7 @@ const VBasicForm: React.FC<IVBasicFormProps> = props => {
   const generatorFormItems = useMemo(() => {
     return formItems.map((item, index) => {
       return (
-        <Col span={8} key={index}>
+        <Col xxl={8} xl={8} lg={8} md={24} sm={24} xs={24} key={index}>
           <VBasicFormItem key={item.name} {...item} />
         </Col>
       )
@@ -81,7 +81,7 @@ const VBasicForm: React.FC<IVBasicFormProps> = props => {
   /** 自定义表单底部内容 */
   const gereratorFormFooter = useMemo(() => {
     return (
-      <Col span={8} key="operation">
+      <Col xxl={8} xl={8} lg={8} md={24} sm={24} xs={24} key="operation">
         <Form.Item style={{textAlign: 'right'}}>
           <Button className="reset-btn" htmlType="button" onClick={handleReset}>
             重置
@@ -108,7 +108,7 @@ const VBasicForm: React.FC<IVBasicFormProps> = props => {
           form={form}
           autoComplete="off"
         >
-          <Row>
+          <Row className="vbasic-form-row">
             {generatorFormItems}
             {gereratorFormFooter}
           </Row>

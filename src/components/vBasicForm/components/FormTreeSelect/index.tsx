@@ -25,11 +25,11 @@ const FormTreeSelect: React.FC<IFormTreeSelectProps> = props => {
 
   const [data, setData] = useState<DataNode[]>([])
 
-  const [value, setValue] = useState(selectValue || undefined)
+  const [value, setValue] = useState(selectValue || '')
 
   /** 监听关闭modal */
   useEffect(() => {
-    setValue(undefined)
+    setValue('')
   }, [closeFlag])
 
   if (Array.isArray(treeData)) {
@@ -52,8 +52,19 @@ const FormTreeSelect: React.FC<IFormTreeSelectProps> = props => {
     setValue(value)
     onSelect && onSelect(value)
   }
-
-  return <TreeSelect value={value} treeData={data} onSelect={handleSelect} />
+  const handleClear = () => {
+    form.setFieldsValue({[name]: ''})
+    setValue('')
+  }
+  return (
+    <TreeSelect
+      allowClear
+      value={value}
+      treeData={data}
+      onSelect={handleSelect}
+      onClear={handleClear}
+    />
+  )
 }
 
 export default FormTreeSelect

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {memo} from 'react'
 import './index.less'
 
 interface IPanThumbProps {
@@ -35,4 +35,4 @@ PanThumb.defaultProps = {
   className: '',
 }
 
-export default PanThumb
+export default memo(PanThumb)

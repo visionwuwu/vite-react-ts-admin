@@ -1,10 +1,13 @@
+@import 'styles/variables.module.less';
 .tagsView-container {
-  height: 36px;
-  line-height: 36px;
+  height: @layout-header-tags-h;
+  line-height: @layout-header-tags-h;
   white-space: nowrap;
-  border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 12%), 0 0 3px 0 rgb(0 0 0 / 4%);
-  background: #fff;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 8%), 0 0 3px 0 rgb(0 0 0 / 4%);
+  background: @white;
+  > div {
+    height: @layout-header-tags-h;
+  }
   .scrollbar-container {
     .tags-wrap {
       list-style: none;

@@ -1,10 +1,13 @@
-import React from 'react'
-import {Breadcrumb} from 'antd'
-import {withRouter, RouteComponentProps} from 'react-router-dom'
+import React, {memo} from 'react'
+import {Breadcrumb, Grid} from 'antd'
+import {useLocation} from 'react-router-dom'
 import menuConfig, {MenuConfig} from '@/config/menuConfig'
+import {TransitionGroup, CSSTransition} from 'react-transition-group'
+import classnames from 'classnames'
+const {useBreakpoint} = Grid
 import './index.less'
 
-type IBreadcrumbProps = RouteComponentProps
+interface IBreadcrumbProps {}
 
 export const matchRoutes = (routes: MenuConfig[], pathname: string) => {
   const temppath: MenuConfig[] = []
@@ -32,8 +35,13 @@ export const matchRoutes = (routes: MenuConfig[], pathname: string) => {
   }
 }
 
-const BreadcrumbContainer: React.FC<IBreadcrumbProps> = props => {
-  const {location} = props
+const BreadcrumbContainer: React.FC<IBreadcrumbProps> = () => {
+  const location = useLocation()
+  const screens = useBreakpoint()
+
+  const classes = classnames('breadcrumb-container', {
+    'is-visible': !screens.lg,
+  })
 
   let paths = matchRoutes(menuConfig, location.pathname)
 
@@ -46,22 +54,31 @@ const BreadcrumbContainer: React.FC<IBreadcrumbProps> = props => {
   }
 
   return (
-    <div className="breadcrumb-container">
+    <div className={classes}>
       <Breadcrumb>
-        {paths &&
-          paths.map(item => {
-            const isHome = item.title === '首页'
-            const type = isHome ? 'a' : 'span'
-            const props = isHome ? {href: item.path} : null
-            return (
-              <Breadcrumb.Item key={item.path}>
-                {React.createElement(type, props, item.title)}
-              </Breadcrumb.Item>
-            )
-          })}
+        <TransitionGroup>
+          {paths &&
+            paths.map(item => {
+              const isHome = item.title === '首页'
+              const type = isHome ? 'a' : 'span'
+              const props = isHome ? {href: item.path} : null
+              return (
+                <CSSTransition
+                  key={item.path}
+                  timeout={500}
+                  classNames="fadeInLeft"
+                  exit={false}
+                >
+                  <Breadcrumb.Item key={item.path}>
+                    {React.createElement(type, props, item.title)}
+                  </Breadcrumb.Item>
+                </CSSTransition>
+              )
+            })}
+        </TransitionGroup>
       </Breadcrumb>
     </div>
   )
 }
 
-export default withRouter(BreadcrumbContainer)
+export default memo(BreadcrumbContainer)

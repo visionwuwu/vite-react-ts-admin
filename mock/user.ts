@@ -111,9 +111,9 @@ export const users: UsersProps = {
   },
   'guest-token': {
     id: 3,
-    username: 'guset',
-    password: 'guset',
-    nickname: 'guset-nickname',
+    username: 'guest',
+    password: 'guest',
+    nickname: 'guest-nickname',
     mobile: '13767679894',
     email: '2021664244@qq.com',
     department: '测试部门',
