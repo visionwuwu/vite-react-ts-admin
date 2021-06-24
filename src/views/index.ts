@@ -16,6 +16,10 @@ const ChangePassword = lazy(() => import('./system/changePassword'))
 const Menu1_1 = lazy(() => import('./nested/menu1/menu1-1'))
 const Menu1_2_1 = lazy(() => import('./nested/menu1/menu1-2/menu1-2-1'))
 const NotFound = lazy(() => import('./error/404'))
+const AccountCenter = lazy(() => import('./account/center'))
+const AccountSetting = lazy(() => import('./account/setting'))
+const TableCom = lazy(() => import('./component/table'))
+const FormCom = lazy(() => import('./component/form'))
 
 export {
   About,
@@ -34,4 +38,8 @@ export {
   Menu1_1,
   Menu1_2_1,
   NotFound,
+  AccountCenter,
+  AccountSetting,
+  TableCom,
+  FormCom,
 }

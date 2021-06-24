@@ -43,13 +43,13 @@ const TransactionTable: React.FC = () => {
   const [tableList, setTableList] = useState<TransactionProps[]>([])
 
   useEffect(() => {
-    remoteSearch().then(response => {
-      const data = response.data as ResponseData
-      if (data.code === 20000) {
-        const list = data.data as TransactionProps[]
-        setTableList(list.slice(0, 12))
-      }
-    })
+    // remoteSearch().then(response => {
+    //   const data = response.data as ResponseData
+    //   if (data.code === 20000) {
+    //     const list = data.data as TransactionProps[]
+    //     setTableList(list.slice(0, 12))
+    //   }
+    // })
   }, [])
 
   return (

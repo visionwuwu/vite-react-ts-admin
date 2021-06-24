@@ -26,12 +26,19 @@ interface IFormTreeProps extends FormTreeOuterProps {
 
 /** 默认基础树形控件配置项 */
 const defaultBasicTreeOptions: IVBasicTreeProps = {
+  /** 组件上方标题 */
   title: 'BasicTitle',
   treeData: [],
+  /** 是否可选中 */
   selectable: false,
+  /** 是否显示搜索框 */
   showSearch: false,
+  /** 节点前添加 Checkbox 复选框 */
   checkable: true,
+  /** 是否展示 TreeNode title 前的图标 */
   showIcon: true,
+  /** checkable 状态下节点选择完全受控（父子节点选中状态不再关联） */
+  checkStrictly: true,
 }
 
 type onSelectFnType = (selectedKeys: Key[]) => void
@@ -83,6 +90,10 @@ const FormTree: React.FC<IFormTreeProps> = props => {
 
   /** 监听modal是否关闭，如果关闭就重置树的数据 */
   useEffect(() => {
+    if (selectValue && selectValue.length) {
+      return setCheckedKeys(selectValue)
+    }
+
     if (checkable) {
       setCheckedKeys([])
     }

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useCallback, useContext, useEffect, useState} from 'react'
 import {message, TreeSelect} from 'antd'
 import {DataNode} from 'rc-tree-select/lib/interface'
 import {isPromise} from 'utils/utils'
@@ -25,12 +25,16 @@ const FormTreeSelect: React.FC<IFormTreeSelectProps> = props => {
 
   const [data, setData] = useState<DataNode[]>([])
 
-  const [value, setValue] = useState(selectValue || '')
+  const [value, setValue] = useState<any>()
 
-  /** 监听关闭modal */
+  /** 打开抽屉时设置初始值，关闭清空值 */
   useEffect(() => {
-    setValue('')
-  }, [closeFlag])
+    if (closeFlag) {
+      setValue('')
+    } else {
+      setValue(selectValue)
+    }
+  }, [closeFlag, selectValue])
 
   if (Array.isArray(treeData)) {
     treeData = Promise.resolve(treeData)
@@ -41,21 +45,28 @@ const FormTreeSelect: React.FC<IFormTreeSelectProps> = props => {
     treeData = Promise.resolve([])
   }
 
+  /** 设置树形选择器的值 */
   useEffect(() => {
     ;(treeData as Promise<DataNode[]>).then(res => {
       setData(res)
     })
   }, [treeData])
 
-  const handleSelect = (value: any) => {
+  /** 更新表单字段值 */
+  useEffect(() => {
     form.setFieldsValue({[name]: value})
-    setValue(value)
-    onSelect && onSelect(value)
-  }
-  const handleClear = () => {
-    form.setFieldsValue({[name]: ''})
+  }, [value])
+
+  const handleSelect = useCallback(
+    (value: any) => {
+      setValue(value)
+      onSelect && onSelect(value)
+    },
+    [onSelect, setValue],
+  )
+  const handleClear = useCallback(() => {
     setValue('')
-  }
+  }, [selectValue])
   return (
     <TreeSelect
       allowClear

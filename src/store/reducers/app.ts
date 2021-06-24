@@ -17,7 +17,7 @@ const initialState: AppStateProps = {
   sidebarCollapsed: defaultSettings.sidebarCollapsed,
   showRightPanel: false,
   lang: getLocale() || defaultSettings.lang,
-  appEnterLoading: false,
+  appEnterLoading: true,
   intlLoading: false,
 }
 

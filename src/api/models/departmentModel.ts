@@ -1,30 +1,25 @@
 /** 部门类型定义 */
 export interface DepartmentProps {
-  parentId: string | number
-  deptName: string
-  deptId: string | number
-  orderNum: string | number
+  _id: string
+  parentId: string
+  name: string
+  orderId: number
   leader: string
   email?: string
-  phone?: string
-  children?: DepartmentProps[]
-  status: string | boolean
-  ancestors?: string
-  searchValue?: string | null
-  createBy?: string
-  createTime?: string
-  updateBy?: string
-  updateTime?: string | null
-  remark?: string | null | number
-  params?: Record<string, unknown> | null
-  delFlag?: string
-  parentName?: string | null
+  mobile?: string
+  status?: DepartmentStatus
 }
 
-export type DepartmentStatus = 0 | 1
+/** 部门状态 */
+export enum DepartmentStatus {
+  /** 启用 */
+  enable = 1,
+  /** 禁用 */
+  disable = 0,
+}
 
 /** 部门列表查询参数 */
 export interface DepartmentQueryParams {
-  deptName?: string
+  name?: string
   status?: DepartmentStatus | string
 }

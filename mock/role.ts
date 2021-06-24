@@ -27,7 +27,7 @@ interface Role {
   roleKeys: RoleName[]
   menuIds: string[]
   orderId: string | number
-  description?: string
+  remark?: string
   status: RoleStatus
 }
 
@@ -36,7 +36,7 @@ export enum RoleUrls {
   roleListUrl = '/role/list',
   addRoleUrl = '/role/add',
   updateRoleUrl = '/role/update',
-  removeRoleUrl = '/role/del',
+  removeRoleUrl = '/role/remove',
 }
 
 /** mock role list data */
@@ -47,7 +47,7 @@ const roles: Role[] = [
     orderId: 0,
     roleKeys: ['admin'],
     menuIds: [],
-    description: '超级管理员',
+    remark: '超级管理员',
     status: RoleStatus.enable,
   },
   {
@@ -56,7 +56,7 @@ const roles: Role[] = [
     orderId: 1,
     roleKeys: ['editor'],
     menuIds: [],
-    description: '普通用户',
+    remark: '普通用户',
     status: RoleStatus.enable,
   },
   {
@@ -65,7 +65,7 @@ const roles: Role[] = [
     orderId: 2,
     roleKeys: ['guest'],
     menuIds: [],
-    description: '游客',
+    remark: '游客',
     status: RoleStatus.enable,
   },
 ]
@@ -125,7 +125,7 @@ export default [
 
       return {
         code: HttpStatusCode.OK,
-        message: '更新用户成功',
+        message: '更新角色成功',
         data: role,
       } as ResponseData
     },

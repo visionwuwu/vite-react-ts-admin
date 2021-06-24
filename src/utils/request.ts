@@ -25,24 +25,24 @@ const MODE = import.meta.env.MODE as EnvName
 
 const base = config[MODE]
 
+const defaultUrl =
+  MODE === 'development'
+    ? 'http://localhost:5001'
+    : process.env.VITE_APP_API_URL
+
 // 创建axios的实例
 const service = axios.create({
-  baseURL: base ? base.apiBaseUrl : 'http://localhost:3000/api',
+  baseURL: base ? base.apiBaseUrl : defaultUrl,
   timeout: 5000,
 })
 
 // 请求拦截器
 service.interceptors.request.use(
   config => {
-    config.withCredentials = true
     // 请求携带凭证
     const token = store.getState().user.token
     if (token) {
-      config.headers.Authoraztion = token
-      config.data = {
-        ...config.data,
-        token,
-      }
+      config.headers.Authorization = 'Bearer ' + token
     }
     return config
   },
@@ -68,29 +68,30 @@ service.interceptors.response.use(
   },
   (error: AxiosError) => {
     const response = error.response
+    const data = response && response.data
     if (response) {
       switch (response.status) {
         case 400:
-          error.message = '错误请求'
+          error.message = data.message || '错误请求'
           break
         case 401:
-          error.message = 'token失效，请重新登录'
+          error.message = data.message || 'token失效，请重新登录'
           break
         case 403:
-          error.message = '非法token，拒绝访问'
+          error.message = data.message || '非法token，拒绝访问'
           dispatchLogout()
           break
         case 404:
-          error.message = '请求错误，资源找不到了'
+          error.message = data.message || '请求错误，资源找不到了'
           break
         case 408:
-          error.message = '请求超时'
+          error.message = data.message || '请求超时'
           break
         case 500:
-          error.message = '服务器错误'
+          error.message = data.message || '服务器错误'
           break
         default:
-          error.message = '连接错误'
+          error.message = data.message || '连接错误'
       }
     } else {
       if (!window.navigator.onLine) {

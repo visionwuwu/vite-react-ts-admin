@@ -1,8 +1,8 @@
 import * as types from '../action-types'
 import {Dispatch} from 'redux'
-import {resetUser, setUserToken} from './user'
+import {resetUser, setUserinfo, setUserToken} from './user'
 import {reqLogin, reqLogout} from 'apis/login'
-import {ResponseData} from 'mock/index'
+import {HttpStatusCode, ResponseData} from 'mock/index'
 import {setToken, removeToken} from 'utils/auth'
 
 export interface LoginAction {
@@ -21,12 +21,23 @@ export const login = (username: string, password: string) => (
   dispatch: Dispatch,
 ): Promise<any> => {
   return new Promise((resolve, reject) => {
-    reqLogin({username, password})
+    reqLogin<any>({username, password})
       .then(response => {
-        const data = response.data as ResponseData
-        if (data.code === 20000) {
-          const token = data.data
+        const data = response.data
+        if (data.code === HttpStatusCode.OK) {
+          const {token, userInfo} = data.data
+          const {
+            _id,
+            roleIdList,
+            roles,
+            type,
+            createdAt,
+            updatedAt,
+            __v,
+            ...restProps
+          } = userInfo
           dispatch(setUserToken(token))
+          dispatch(setUserinfo(restProps))
           setToken(token)
           resolve(data)
         } else {

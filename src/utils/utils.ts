@@ -58,3 +58,43 @@ export function deepMerge(...objs: any[]): any {
 
   return result
 }
+
+/**
+ * @description 将时间戳转换为年-月-日-时-分-秒格式
+ * @param {String} timestamp
+ * @returns {String} 年-月-日-时-分-秒
+ */
+
+export function timestampToTime(timestamp: string) {
+  const date = new Date(timestamp)
+  const Y = date.getFullYear() + '-'
+  const M =
+    (date.getMonth() + 1 < 10
+      ? '0' + (date.getMonth() + 1)
+      : date.getMonth() + 1) + '-'
+  const D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' '
+  const h =
+    (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':'
+  const m =
+    (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':'
+  const s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+
+  const strDate = Y + M + D + h + m + s
+  return strDate
+}
+
+/**
+ * 删除对象的一些字段
+ * @param obj
+ * @param keys
+ * @returns
+ */
+// eslint-disable-next-line
+export function filterObjFields(obj: object, keys: string[]) {
+  return Object.keys(obj).reduce((o, key) => {
+    if (!keys.includes(key)) {
+      o[key] = (obj as any)[key]
+    }
+    return o
+  }, {} as {[key: string]: any})
+}

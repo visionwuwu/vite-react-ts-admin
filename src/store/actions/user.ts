@@ -1,5 +1,6 @@
 import * as types from '../action-types'
 import {getUserInfo} from 'apis/user'
+import {findRoutes} from 'apis/menu'
 import {Dispatch} from 'redux'
 import {ResponseData} from 'mock'
 import {UserStateProps} from '../reducers/user'
@@ -22,6 +23,11 @@ export interface ISetUserinfoAction {
   payload: UserStateProps
 }
 
+export interface ISetRoutesAction {
+  type: types.SET_ROUTES_TYPE
+  payload: any[]
+}
+
 export const setUserToken = (payload: string): ISetTokenAction => {
   return {
     type: types.SET_TOKEN,
@@ -42,19 +48,53 @@ export const setUserinfo = (userinfo: UserStateProps): ISetUserinfoAction => {
   }
 }
 
-export const getUserinfo = (token: string) => (
-  dispatch: Dispatch,
-): Promise<any> => {
+export const setRoutes = (routes: any[]): ISetRoutesAction => {
+  return {
+    type: types.SET_ROUTES,
+    payload: routes,
+  }
+}
+
+export const getUserinfo = () => (dispatch: Dispatch): Promise<any> => {
   return new Promise((resolve, reject) => {
-    getUserInfo(token)
+    getUserInfo()
       .then(response => {
         const data = response.data as ResponseData
         if (data.code === 20000) {
           setTimeout(() => {
             const userinfo = data.data
-            dispatch(setUserinfo(userinfo))
+            const {
+              _id,
+              roleIdList,
+              roles,
+              type,
+              createdAt,
+              updatedAt,
+              __v,
+              ...restProps
+            } = userinfo
+            dispatch(setUserinfo(restProps))
             resolve(data)
           }, 300)
+        } else {
+          reject(data.message)
+        }
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+export const getRoutes = () => (dispatch: Dispatch): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    findRoutes()
+      .then(response => {
+        const data = response.data as ResponseData
+        if (data.code === 20000) {
+          const routes = data.data
+          dispatch(setRoutes(routes))
+          resolve(data)
         } else {
           reject(data.message)
         }
@@ -70,3 +110,4 @@ export type UserAction =
   | IResetUserAction
   | IGetUserinfoAction
   | ISetUserinfoAction
+  | ISetRoutesAction

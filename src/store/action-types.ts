@@ -39,6 +39,8 @@ export const GET_USERINFO = 'GET_USERINFO'
 export type GET_USERINFO_TYPE = typeof GET_USERINFO
 export const SET_USERINFO = 'SET_USERINFO'
 export type SET_USERINFO_TYPE = typeof SET_USERINFO
+export const SET_ROUTES = 'SET_ROUTES'
+export type SET_ROUTES_TYPE = typeof SET_ROUTES
 
 // auth
 export const AUTH_LOGIN = 'AUTH_LOGIN'
@@ -79,6 +81,7 @@ export enum Types {
   USER_RESET_USER = 'USER_RESET_USER',
   USER_GET_USERINFO = 'USER_GET_USERINFO',
   USER_SET_USERINFO = 'USER_SET_USERINFO',
+  USER_SET_ROUTES = 'USER_SET_ROUTES',
 
   // auth
   AUTH_LOGIN = 'AUTH_LOGIN',

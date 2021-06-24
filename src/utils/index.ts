@@ -1,4 +1,4 @@
-import {MenuConfig} from '@/config/menuConfig'
+import {MenuListProps} from '@/config/menuConfig'
 
 /**
  * 通过属性在menuList获取对应的menuItem
@@ -8,15 +8,15 @@ import {MenuConfig} from '@/config/menuConfig'
  * @returns
  */
 export const getMenuItemInMenuListByProperty = (
-  menuList: MenuConfig[],
+  menuList: MenuListProps[],
   key: string,
   value: string,
-): MenuConfig | null => {
-  let stack: MenuConfig[] = []
+): MenuListProps | null => {
+  let stack: MenuListProps[] = []
   stack = menuList.concat(stack)
-  let res: MenuConfig | null = null
+  let res: MenuListProps | null = null
   while (stack.length) {
-    const cur = stack.shift() as MenuConfig
+    const cur = stack.shift() as MenuListProps
     if (cur.children && cur.children.length > 0) {
       stack = cur.children.concat(stack)
     }
@@ -96,15 +96,11 @@ export function treeDataTranslate(
       if (!temp[data[k][pid]]['children']) {
         temp[data[k][pid]]['children'] = []
       }
-      if (!temp[data[k][pid]]['_level']) {
-        temp[data[k][pid]]['_level'] = 1
-      }
       if (typeof addFields === 'object') {
         Object.keys(addFields).forEach(key => {
           data[k][key] = data[k][addFields[key]]
         })
       }
-      data[k]['_level'] = temp[data[k][pid]]._level + 1
       temp[data[k][pid]]['children'].push(data[k])
     } else {
       if (typeof addFields === 'object') {

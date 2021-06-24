@@ -58,7 +58,7 @@ const VBasicForm: React.FC<IVBasicFormProps> = props => {
     return () => {
       formItems.forEach(field => {
         const {name, value} = field
-        form.setFieldsValue({[name]: value || ''})
+        form.setFieldsValue({[name]: value !== undefined ? value : ''})
       })
     }
   }, [formItems, form])

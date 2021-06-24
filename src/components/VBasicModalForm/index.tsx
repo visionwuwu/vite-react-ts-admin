@@ -6,6 +6,7 @@ import React, {
   useRef,
   useState,
   MouseEvent,
+  useEffect,
 } from 'react'
 import {Modal, ModalProps, Form, Button} from 'antd'
 import Icon from 'comps/Icon'
@@ -102,6 +103,13 @@ const VBasicModalForm: React.FC<IVBasicModalFormProps> = forwardRef(
       })
     }, [editData, formItems, closeFlag])
 
+    /** 关闭后重置表单 */
+    useEffect(() => {
+      if (closeFlag) {
+        form.resetFields()
+      }
+    }, [closeFlag])
+
     /** 生成表单items */
     const generatorFormItems = () => {
       return generatorFormFields.map(item => {
@@ -179,7 +187,9 @@ const VBasicModalForm: React.FC<IVBasicModalFormProps> = forwardRef(
           autoHide
           autoHeight
           autoHeightMax={450}
+          autoHeightMin={450}
           autoHideTimeout={500}
+          thumbSize={60}
         >
           <FormContext.Provider value={{form, closeFlag}}>
             <Form

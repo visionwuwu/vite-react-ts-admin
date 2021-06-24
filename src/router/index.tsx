@@ -1,5 +1,5 @@
 import React, {Suspense} from 'react'
-import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom'
+import {Redirect, Route, Switch, HashRouter} from 'react-router-dom'
 import {Login} from 'views/index'
 import Layout from '@/layout'
 import {connect} from 'react-redux'
@@ -13,31 +13,34 @@ type IRouterProps = IProps
 const Router: React.FC<IRouterProps> = props => {
   const {
     token,
-    roles,
+    roleNames,
     getUserinfo,
     appEnterLoading,
     toggleAppEnterLoading,
   } = props
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Suspense fallback={<AppLoading />}>
         <Switch>
           <Route path="/login" exact component={Login} />
           <Route
             path="/"
-            render={() => {
+            render={props => {
               // 不存在token
               if (!token) {
                 return <Redirect to="/login" />
               }
+
               // 未登录，或者没有权限
-              if (!roles || roles.length === 0) {
+              if (!roleNames) {
                 toggleAppEnterLoading(true)
-                ;(getUserinfo(token) as any)
-                  .then(() => <Layout />)
+                ;(getUserinfo() as any)
+                  .then(() => {
+                    return <Layout />
+                  })
                   .catch(() => {
-                    return <Redirect to="/login" />
+                    props.history.push('/login')
                   })
                   .finally(() => {
                     toggleAppEnterLoading(false)
@@ -46,6 +49,7 @@ const Router: React.FC<IRouterProps> = props => {
                 // 用户已登录，并且具有权限，进入系统
                 return <Layout />
               }
+
               // 应用初始时的加载动画
               if (appEnterLoading) {
                 return <AppLoading />
@@ -54,14 +58,14 @@ const Router: React.FC<IRouterProps> = props => {
           />
         </Switch>
       </Suspense>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
 // 映射state到组件的props上
 const mapStateToProps = (state: StoreStateProps) => ({
   token: state.user.token,
-  roles: state.user.roles,
+  roleNames: state.user.roleNames,
   appEnterLoading: state.app.appEnterLoading,
 })
 

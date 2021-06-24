@@ -15,6 +15,10 @@ import {
   Menu1_2_1,
   Menu1_1,
   NotFound,
+  AccountCenter,
+  AccountSetting,
+  TableCom,
+  FormCom,
 } from '../views'
 export type RoleName = 'admin' | 'editor' | 'guest'
 export interface routeProps {
@@ -24,7 +28,7 @@ export interface routeProps {
   // eslint-disable-next-line
   component: React.LazyExoticComponent<any>
   roles?: Array<RoleName>
-  requiredAuth?: boolean
+  notAuth?: boolean
 }
 
 /**
@@ -43,91 +47,103 @@ const routes: Array<routeProps> = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
-    roles: ['admin', 'editor', 'guest'],
+    notAuth: true,
   },
   {
     path: '/doc',
     name: 'Doc',
     component: Doc,
-    roles: ['admin', 'editor', 'guest'],
+    notAuth: true,
   },
   {
     path: '/permission/explanation',
     name: 'Explanation',
     component: Explanation,
-    roles: ['admin', 'editor'],
+    notAuth: true,
   },
   {
     path: '/permission/admin',
     name: 'Admin',
     component: Admin,
-    roles: ['admin'],
   },
   {
     path: '/permission/editor',
     name: 'Editor',
     component: Editor,
-    roles: ['admin', 'editor'],
   },
   {
     path: '/permission/guest',
     name: 'Guest',
     component: Guest,
-    roles: ['admin', 'editor', 'guest'],
   },
   {
     path: '/system/account',
     name: 'Account',
     component: Account,
-    roles: ['admin', 'editor'],
   },
   {
     path: '/system/role',
     name: 'Role',
     component: Role,
-    roles: ['admin', 'editor'],
   },
   {
     path: '/system/menu',
     name: 'Menu',
     component: Menu,
-    roles: ['admin', 'editor'],
   },
   {
     path: '/system/dept',
     name: 'Department',
     component: Department,
-    roles: ['admin', 'editor'],
   },
   {
     path: '/system/changePassword',
     name: 'ChangePassword',
     component: ChangePassword,
-    roles: ['admin', 'editor'],
+  },
+  {
+    path: '/component/table',
+    name: 'TableCom',
+    component: TableCom,
+  },
+  {
+    path: '/component/form',
+    name: 'FormCom',
+    component: FormCom,
   },
   {
     path: '/nested/menu1/menu1-1',
     name: 'Menu1_1',
     component: Menu1_1,
-    roles: ['admin', 'editor'],
   },
   {
     path: '/nested/menu1/menu1-2/menu1-2-1',
     name: 'Menu1_2_1',
     component: Menu1_2_1,
-    roles: ['admin', 'editor'],
+  },
+  {
+    path: '/account/center',
+    name: 'AccountCenter',
+    component: AccountCenter,
+    notAuth: true,
+  },
+  {
+    path: '/account/setting',
+    name: 'AccountSetting',
+    component: AccountSetting,
+    notAuth: true,
   },
   {
     path: '/about',
     name: 'About',
     component: About,
-    roles: ['admin', 'editor', 'guest'],
+    notAuth: true,
   },
   {
     path: '/error/404',
     name: '404',
     component: NotFound,
-    roles: ['admin', 'editor', 'guest'],
+    notAuth: true,
   },
 ]
 

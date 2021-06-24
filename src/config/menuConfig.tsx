@@ -16,12 +16,12 @@ export interface IconEnmu {
   [propName: string]: React.ReactNode
 }
 
-export interface MenuConfig {
+export interface MenuListProps {
   path: string
   title: string
   icon?: string
   roles?: Array<RoleName>
-  children?: Array<MenuConfig>
+  children?: Array<MenuListProps>
   // eslint-disable-next-line
   [propName: string]: any
 }
@@ -37,7 +37,7 @@ export const iconEnmu: IconEnmu = {
   setting: <SettingOutlined />,
 }
 
-const menuConfig: MenuConfig[] = [
+const MenuList: MenuListProps[] = [
   {
     path: '/dashboard',
     title: '首页',
@@ -148,4 +148,74 @@ const menuConfig: MenuConfig[] = [
   },
 ]
 
-export default menuConfig
+/** 公共菜单列表，无需权限即可访问 */
+export const commonMenuList: MenuListProps[] = [
+  {
+    path: '/dashboard',
+    title: '首页',
+    icon: 'HomeOutlined',
+  },
+  {
+    path: '/doc',
+    title: '文档',
+    icon: 'FileOutlined',
+  },
+  {
+    path: '/account',
+    title: '个人页',
+    icon: 'FormOutlined',
+    children: [
+      {
+        path: '/account/center',
+        title: '个人中心',
+      },
+      {
+        path: '/account/setting',
+        title: '个人设置',
+      },
+    ],
+  },
+  {
+    path: '/about',
+    title: '关于作者',
+    icon: 'UserOutlined',
+  },
+]
+
+export const prevCommonMenuList: MenuListProps[] = [
+  {
+    path: '/dashboard',
+    title: '首页',
+    icon: 'HomeOutlined',
+  },
+  {
+    path: '/doc',
+    title: '文档',
+    icon: 'FileOutlined',
+  },
+]
+
+export const nextCommonMenuList: MenuListProps[] = [
+  {
+    path: '/account',
+    title: '个人页',
+    icon: 'FormOutlined',
+    children: [
+      {
+        path: '/account/center',
+        title: '个人中心',
+      },
+      {
+        path: '/account/setting',
+        title: '个人设置',
+      },
+    ],
+  },
+  {
+    path: '/about',
+    title: '关于作者',
+    icon: 'UserOutlined',
+  },
+]
+
+export default MenuList

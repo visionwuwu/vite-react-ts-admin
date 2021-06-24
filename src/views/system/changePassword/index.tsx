@@ -24,21 +24,21 @@ const ChangePassword: React.FC<IChangePasswordProps> = () => {
             <Form.Item
               label="当前密码"
               name="cpass"
-              rules={[{required: true, message: 'Please input your username!'}]}
+              rules={[{required: true, message: '请输入当前密码'}]}
             >
               <Input.Password allowClear placeholder="请输入" type="password" />
             </Form.Item>
             <Form.Item
               label="新密码"
               name="npass"
-              rules={[{required: true, message: 'Please input your username!'}]}
+              rules={[{required: true, message: '请输入新密码'}]}
             >
               <Input.Password allowClear placeholder="新密码" type="password" />
             </Form.Item>
             <Form.Item
               label="确认密码"
               name="confirmpass"
-              rules={[{required: true, message: 'Please input your username!'}]}
+              rules={[{required: true, message: '确认密码不能为空'}]}
             >
               <Input.Password allowClear placeholder="请输入" type="password" />
             </Form.Item>

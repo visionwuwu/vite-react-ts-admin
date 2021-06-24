@@ -8,6 +8,7 @@ import {
   RadioProps,
   RadioGroupProps,
 } from 'antd'
+import {TextAreaProps} from 'antd/lib/input'
 import FormTreeSelect from '../FormTreeSelect'
 import FormTree, {FormTreeOuterProps} from '../FormTree'
 import FormIconPicker from '../FormIconPicker'
@@ -28,12 +29,13 @@ export type FormItemType =
   | 'tree-select'
   | 'tree'
   | 'icon-picker'
+  | 'hidden'
 
 export interface IFormItemProps {
   /** 表单项类型 */
   type: FormItemType
   /** label标签文本 */
-  label: string
+  label?: string
   /** 表单提交项的名称 */
   name: string
   /** 表单项的值 */
@@ -42,6 +44,8 @@ export interface IFormItemProps {
   payload?: any
   /** 表单项验证规则 */
   rules?: Rule[]
+  /** 表单项值发生变化时触发 */
+  onChange?: (value: any) => void
   /** 当前表单组件的其他属性 */
   othersProps?: InputNumberProps &
     InputProps &
@@ -49,11 +53,21 @@ export interface IFormItemProps {
     CheckboxProps &
     RadioProps &
     RadioGroupProps &
-    FormTreeOuterProps
+    FormTreeOuterProps &
+    TextAreaProps
 }
 
 const FormItem: React.FC<IFormItemProps> = props => {
-  const {type, label, name, value, payload, rules, othersProps} = props
+  const {
+    type,
+    label,
+    name,
+    value,
+    payload,
+    rules,
+    onChange,
+    othersProps,
+  } = props
 
   let valuePropName = undefined
 
@@ -63,15 +77,24 @@ const FormItem: React.FC<IFormItemProps> = props => {
   const placeholder = `请${type === 'select' ? '选择' : '输入'}${label}`
 
   const changeValue = useCallback((value: any) => {
+    onChange && onChange(value)
     console.log(value)
   }, [])
 
+  const handleChange = (e: any) => {
+    onChange && onChange(e)
+  }
+
   switch (type) {
     case 'textarea':
-      formItemContent = <Input.TextArea placeholder={placeholder} allowClear />
+      formItemContent = (
+        <Input.TextArea placeholder={placeholder} allowClear {...othersProps} />
+      )
       break
     case 'password':
-      formItemContent = <Input.Password placeholder={placeholder} allowClear />
+      formItemContent = (
+        <Input.Password placeholder={placeholder} allowClear {...othersProps} />
+      )
       break
     case 'number':
       formItemContent = (
@@ -96,9 +119,9 @@ const FormItem: React.FC<IFormItemProps> = props => {
       formItemContent = <Radio.Group {...(othersProps as RadioGroupProps)} />
       break
     case 'select':
-      formItemContent = payload ? (
-        <Select options={payload} placeholder={placeholder} allowClear></Select>
-      ) : null
+      formItemContent = (
+        <Select placeholder={placeholder} allowClear {...othersProps}></Select>
+      )
       break
     case 'tree-select':
       formItemContent = (
@@ -129,8 +152,13 @@ const FormItem: React.FC<IFormItemProps> = props => {
         />
       )
       break
+    case 'hidden':
+      formItemContent = <Input type="hidden" {...othersProps} />
+      break
     default:
-      formItemContent = <Input placeholder={placeholder} allowClear />
+      formItemContent = (
+        <Input placeholder={placeholder} allowClear {...othersProps} />
+      )
       break
   }
 

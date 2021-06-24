@@ -6,7 +6,7 @@ enum DepartmentUrls {
   departmentListUrl = '/department/list',
   addDepartmentUrl = '/department/add',
   updateDepartmentUrl = '/department/update',
-  removeDepartmentUrl = '/department/del',
+  removeDepartmentUrl = '/department/remove',
 }
 
 /** 部门类型定义 */

@@ -12,4 +12,6 @@ export interface ResponseData {
   code: number
   message?: string
   data: any
+  pageNumber?: number
+  total?: number
 }

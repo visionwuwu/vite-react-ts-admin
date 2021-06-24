@@ -4,54 +4,72 @@ import {DepartmentProps, DepartmentQueryParams} from './models/departmentModel'
 
 /** 部门请求urls */
 enum DepartmentUrls {
-  departmentListUrl = '/department/list',
-  addDepartmentUrl = '/department/add',
-  updateDepartmentUrl = '/department/update',
-  removeDepartmentUrl = '/department/del',
+  departmentListUrl = 'system/dept/list',
+  addDepartmentUrl = 'system/dept/add',
+  updateDepartmentUrl = 'system/dept',
+  removeDepartmentUrl = 'system/dept',
+  selectDepartmentUrl = 'system/dept/select',
+  ownDeptTreeUrl = 'system/dept/ownDeptTree',
+  roleDeptTreeSelectUrl = 'system/dept/roleDeptTree',
 }
 
 export function getDepartmentList<T>(
-  queryParams: DepartmentQueryParams = {},
+  params: DepartmentQueryParams = {},
 ): Promise<AxiosResponse<T>> {
   return request<T>({
     url: DepartmentUrls.departmentListUrl,
-    method: 'post',
-    data: {
-      ...queryParams,
-    },
+    method: 'get',
+    params,
   })
 }
 
-export function addUser<T>(
+export function addDepartment<T>(
   department: DepartmentProps,
 ): Promise<AxiosResponse<T>> {
   return request<T>({
     url: DepartmentUrls.addDepartmentUrl,
     method: 'post',
-    data: {
-      department,
-    },
+    data: department,
   })
 }
 
-export function updateUser<T>(
-  id: string | number,
+export function updateDepartment<T>(
+  id: string,
   department: DepartmentProps,
 ): Promise<AxiosResponse<T>> {
   return request<T>({
-    url: DepartmentUrls.updateDepartmentUrl,
-    method: 'post',
-    data: {
-      id,
-      department,
-    },
+    url: `${DepartmentUrls.updateDepartmentUrl}/${id}`,
+    method: 'put',
+    data: department,
   })
 }
 
-export function removeUser<T>(id: string | number): Promise<AxiosResponse<T>> {
+export function removeDepartment<T>(
+  id: string | number,
+): Promise<AxiosResponse<T>> {
   return request<T>({
-    url: DepartmentUrls.removeDepartmentUrl,
-    method: 'post',
-    data: {id},
+    url: `${DepartmentUrls.removeDepartmentUrl}/${id}`,
+    method: 'delete',
+  })
+}
+
+export function selectDepartment<T>(id: string): Promise<AxiosResponse<T>> {
+  return request<T>({
+    url: `${DepartmentUrls.selectDepartmentUrl}/${id}`,
+    method: 'get',
+  })
+}
+
+export function roleDeptTreeSelect<T>(id: string): Promise<AxiosResponse<T>> {
+  return request<T>({
+    url: `${DepartmentUrls.roleDeptTreeSelectUrl}/${id}`,
+    method: 'get',
+  })
+}
+
+export function ownDeptTree<T>(): Promise<AxiosResponse<T>> {
+  return request<T>({
+    url: DepartmentUrls.ownDeptTreeUrl,
+    method: 'get',
   })
 }

@@ -1,7 +1,6 @@
 import React, {ChangeEventHandler, useMemo, useState} from 'react'
 import {Dropdown, Input, Tree, Menu, TreeProps, Empty} from 'antd'
 import Icon from 'comps/Icon'
-import Scrollbars from 'react-custom-scrollbars'
 import classnames from 'classnames'
 import {Key, DataNode} from 'rc-tree/lib/interface'
 import {MenuClickEventHandler} from 'rc-menu/lib/interface'

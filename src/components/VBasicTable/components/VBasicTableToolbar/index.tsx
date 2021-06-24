@@ -38,7 +38,7 @@ const VBasicTableToolbar: React.FC<IVBasicTableToolbarProps> = props => {
           dispatchSize('large')
         }}
       >
-        默认
+        大号
       </Menu.Item>
       <Menu.Item
         key="middle"

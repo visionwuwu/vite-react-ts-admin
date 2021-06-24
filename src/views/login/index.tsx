@@ -4,6 +4,7 @@ import {login} from 'store/actions'
 import {connect} from 'react-redux'
 import {RouteComponentProps, withRouter} from 'react-router'
 import Icon from 'comps/Icon'
+import {HttpStatusCode} from 'root/mock'
 import './index.less'
 
 type ILoginProps = RouteComponentProps
@@ -12,8 +13,8 @@ const Login: React.FC<ILoginProps & ActionProps> = props => {
   const {login, history} = props
 
   const formSubmit = (values: any) => {
-    login(values.username, values.password).then((data: any) => {
-      if (data.code === 20000) {
+    login(values.username.trim(), values.password.trim()).then((data: any) => {
+      if (data.code === HttpStatusCode.OK) {
         notification.success({
           message: '登录成功',
           description: `欢迎回来: ${values.username}`,
@@ -32,7 +33,7 @@ const Login: React.FC<ILoginProps & ActionProps> = props => {
           <Form name="login-form" size="middle" onFinish={formSubmit}>
             <Form.Item
               name="username"
-              initialValue={'admin'}
+              initialValue={'Visionwuwu'}
               rules={[
                 {
                   required: true,
@@ -47,7 +48,7 @@ const Login: React.FC<ILoginProps & ActionProps> = props => {
             </Form.Item>
             <Form.Item
               name="password"
-              initialValue={'admin'}
+              initialValue={''}
               rules={[
                 {
                   required: true,
@@ -67,9 +68,9 @@ const Login: React.FC<ILoginProps & ActionProps> = props => {
               </Button>
             </Form.Item>
             <Form.Item>
-              <p>账号 : admin 密码 : 随便填</p>
-              <p>账号 : editor 密码 : 随便填</p>
-              <p>账号 : guest 密码 : 随便填</p>
+              <p>账号 : admin 密码 : 123456</p>
+              <p>账号 : editor 密码 : 123456</p>
+              <p>账号 : guest 密码 : 123456</p>
             </Form.Item>
           </Form>
         </Spin>

@@ -2,7 +2,7 @@ import {UserConfigExport, ConfigEnv} from 'vite'
 import reactRefresh from '@vitejs/plugin-react-refresh'
 import path from 'path'
 import styleImport from 'vite-plugin-style-import'
-import {viteMockServe} from 'vite-plugin-mock'
+// import {viteMockServe} from 'vite-plugin-mock'
 import config, {EnvName} from './config'
 import lessToJS from 'less-vars-to-js'
 import fs from 'fs'
@@ -49,21 +49,22 @@ export default ({command}: ConfigEnv): UserConfigExport => {
         },
       },
     },
-    server: {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3000/',
-          changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, ''),
-        },
-      },
-    },
+    // server: {
+    //   proxy: {
+    //     // 开发代理
+    //     '/api': {
+    //       target: 'http://localhost:5001/',
+    //       changeOrigin: true,
+    //       rewrite: path => path.replace(/^\/api/, ''),
+    //     },
+    //   },
+    // },
     plugins: [
       reactRefresh(),
-      viteMockServe({
-        supportTs: true,
-        localEnabled: command === 'serve',
-      }),
+      // viteMockServe({
+      //   supportTs: true,
+      //   localEnabled: command === 'serve',
+      // }),
       styleImport({
         libs: [
           {

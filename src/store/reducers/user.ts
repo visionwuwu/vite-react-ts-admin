@@ -1,5 +1,4 @@
 import * as types from '../action-types'
-import {RoleName} from '@/config/routeMap'
 import {getToken} from 'utils/auth'
 import {RootActions} from '../actions'
 
@@ -9,17 +8,22 @@ export interface UserStateProps {
   mobile?: string
   nickname?: string
   avatar: string
+  sex?: number
   token?: string
-  roles: Array<RoleName>
-  description?: string
-  status?: boolean
+  roleNames: string[] | null
+  permissions: string[]
+  routes: any[]
+  remark?: string
+  status?: number
 }
 
 const initialState: UserStateProps = {
   username: 'admin',
   avatar: 'https://s1.ax1x.com/2020/04/28/J5hUaT.jpg',
   token: getToken() || 'admin-token',
-  roles: [],
+  roleNames: null,
+  permissions: [],
+  routes: [],
 }
 
 export default (state = initialState, action: RootActions): UserStateProps => {
@@ -35,12 +39,17 @@ export default (state = initialState, action: RootActions): UserStateProps => {
         username: '',
         token: '',
         avatar: '',
-        roles: [],
+        roleNames: [],
       }
     case types.SET_USERINFO:
       return {
         ...state,
         ...action.payload,
+      }
+    case types.SET_ROUTES:
+      return {
+        ...state,
+        routes: action.payload,
       }
     default:
       return state

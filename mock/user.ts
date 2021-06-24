@@ -8,7 +8,7 @@ enum UserUrls {
   userListUrl = '/user/list',
   addUserUrl = '/user/add',
   updateUserUrl = '/user/update',
-  removeUserUrl = '/user/del',
+  removeUserUrl = '/user/remove',
 }
 
 /** token值类型 */
@@ -38,6 +38,16 @@ export enum UserStatus {
   enable = 1,
 }
 
+/** 用户性别 */
+export enum SexEnum {
+  // 男
+  male = 1,
+  // 女
+  female = 2,
+  // 未知
+  unknown = 3,
+}
+
 /** token类型 */
 export type TokensProps = {
   [key in RoleName]?: {token: TokenName}
@@ -61,7 +71,7 @@ export interface UserProps {
   roles: Array<RoleName>
   type: UserType
   status?: UserStatus
-  description?: string
+  remark?: string
 }
 
 /** mock token data */
@@ -92,7 +102,7 @@ export const users: UsersProps = {
     type: UserType.admin,
     roles: ['admin'],
     status: UserStatus.enable,
-    description: '超级管理员',
+    remark: '超级管理员',
   },
   'editor-token': {
     id: 2,
@@ -107,7 +117,7 @@ export const users: UsersProps = {
     type: UserType.common,
     roles: ['editor'],
     status: UserStatus.enable,
-    description: '系统editor人员',
+    remark: '系统editor人员',
   },
   'guest-token': {
     id: 3,
@@ -122,7 +132,7 @@ export const users: UsersProps = {
     roles: ['guest'],
     type: UserType.common,
     status: UserStatus.enable,
-    description: '游客',
+    remark: '游客',
   },
 }
 

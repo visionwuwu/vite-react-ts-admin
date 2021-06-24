@@ -19,7 +19,7 @@ interface OnOK {
 /** 将组件内部的一些属性或方法暴露到组件外面 */
 export interface ModalImperativeProps {
   /** 打开弹框的函数 */
-  openModal: (onOk: OnOK, content?: string | React.ReactNode) => void
+  openModal: (onOk: () => void, content?: string | React.ReactNode) => void
   /** 关闭弹框的函数 */
   closeModal: () => void
 }
@@ -40,11 +40,20 @@ interface IVBasicModalProps extends Omit<ModalProps, ModalWithoutProps> {
   className?: string
   /** 自定义Css 内联样式 */
   style?: React.CSSProperties
+  children?: React.ReactNode
 }
 // eslint-disable-next-line
 const VBasicModal: React.FC<IVBasicModalProps> = forwardRef((props, ref) => {
   /** 解构组件的属性 */
-  const {title, className, style, content, customFooter, ...restProps} = props
+  const {
+    title,
+    className,
+    style,
+    content,
+    customFooter,
+    children,
+    ...restProps
+  } = props
   const contentRef = useRef<string | React.ReactNode>()
   /** 保存外部传递的确认回调函数 */
   const handleOkRef = useRef<OnOK>(() => null)
@@ -98,7 +107,7 @@ const VBasicModal: React.FC<IVBasicModalProps> = forwardRef((props, ref) => {
       onCancel={handleCancelModal}
       footer={generatorFooter}
     >
-      {contentRef.current || content}
+      {children || contentRef.current || content}
     </Modal>
   )
 })

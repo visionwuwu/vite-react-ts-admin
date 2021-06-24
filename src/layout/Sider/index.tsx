@@ -21,7 +21,7 @@ const LayoutSider: React.FC<ILayoutSiderProps> = () => {
   const collapsedWidth = parseInt(variables['layout-sidebar-collapsed-w'])
   const width = parseInt(variables['layout-sidebar-w'])
   const dispatch = useAppDispatch()
-  /** 展位的sider Css 类 */
+  /** 占位的sider Css 类 */
   const classes = classnames('layout-sidebar-container', {
     'is-collapsed': sidebarCollapsed,
   })

@@ -22,7 +22,7 @@ import {
   weekModeToggle,
   grayModeToggle,
 } from './settings'
-import {setUserToken, UserAction, getUserinfo} from './user'
+import {setUserToken, UserAction, getUserinfo, getRoutes} from './user'
 import {login, logout, AuthAction} from './auth'
 import {
   addTagsView,
@@ -89,4 +89,5 @@ export {
   grayModeToggle,
   asyncIntlLoadingToggle,
   intlLoadingToggle,
+  getRoutes,
 }

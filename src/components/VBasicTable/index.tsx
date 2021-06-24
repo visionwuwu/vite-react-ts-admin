@@ -41,7 +41,7 @@ interface IVBasicTableProps {
   onRefresh?(): void
   size?: SizeType
   rowKey?: string
-  pagination?: TablePaginationConfig | false
+  pagination?: TablePaginationConfig | boolean
 }
 
 /** 表格尺寸大小 */
@@ -104,6 +104,15 @@ const VBasicTable: React.FC<IVBasicTableProps> = props => {
   } = props
 
   const [expandedRowKeys, setExpandedRowKeys] = useState<any[]>([])
+
+  const innerPagination = useMemo<any>(() => {
+    return typeof pagination === 'boolean'
+      ? pagination
+      : {
+          ...defaultPagination,
+          ...pagination,
+        }
+  }, [pagination])
 
   const classes = useMemo(() => {
     return classnames('vbasic-table-wrapper', className)
@@ -234,14 +243,11 @@ const VBasicTable: React.FC<IVBasicTableProps> = props => {
         bordered
         rowKey={rowKey}
         loading={loading}
-        scroll={{y: scrollY, x: 900}}
+        scroll={{x: 900}}
         title={() => renderTableHeader()}
         rowClassName={classNameFn}
         expandable={expandable}
-        pagination={{
-          ...defaultPagination,
-          ...pagination,
-        }}
+        pagination={innerPagination}
       >
         {columns.map((column, index) => {
           return <Table.Column {...column} key={index} />
@@ -255,7 +261,7 @@ VBasicTable.defaultProps = {
   title: '',
   addBtnText: '',
   className: '',
-  size: 'small',
+  size: 'middle',
   rowKey: 'key',
   othersNodeHeight: 0,
   // eslint-disable-next-line

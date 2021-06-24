@@ -1,7 +1,7 @@
 import React, {memo} from 'react'
 import {Breadcrumb, Grid} from 'antd'
 import {useLocation} from 'react-router-dom'
-import menuConfig, {MenuConfig} from '@/config/menuConfig'
+import MenuList, {MenuListProps} from '@/config/menuConfig'
 import {TransitionGroup, CSSTransition} from 'react-transition-group'
 import classnames from 'classnames'
 const {useBreakpoint} = Grid
@@ -9,11 +9,11 @@ import './index.less'
 
 interface IBreadcrumbProps {}
 
-export const matchRoutes = (routes: MenuConfig[], pathname: string) => {
-  const temppath: MenuConfig[] = []
+export const matchRoutes = (routes: MenuListProps[], pathname: string) => {
+  const temppath: MenuListProps[] = []
   try {
     // eslint-disable-next-line
-    function getItemPath(item: MenuConfig) {
+    function getItemPath(item: MenuListProps) {
       const isMatch = pathname.indexOf(item.path) !== -1
       if (isMatch) {
         temppath.push(item)
@@ -43,7 +43,7 @@ const BreadcrumbContainer: React.FC<IBreadcrumbProps> = () => {
     'is-visible': !screens.lg,
   })
 
-  let paths = matchRoutes(menuConfig, location.pathname)
+  let paths = matchRoutes(MenuList, location.pathname)
 
   const first = paths && paths[0]
 
