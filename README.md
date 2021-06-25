@@ -81,7 +81,7 @@ npm run build:production
 - Typescript 语法支持
 - Git Hooks 提交代码时校验
 
-:huammer: 基本功能
+:hammer: 基本功能
 
 - 权限验证（基于角色）
 - react 路由封装，动态路由实现
@@ -102,7 +102,7 @@ npm run build:production
 - 多环境打包
 - jest 单元测试
 
-:huammer: 业务功能
+:hammer: 业务功能
 
 - 登录 管理员登录
 - 用户管理 用户是系统操作者，该功能主要完成系统用户配置。
@@ -110,7 +110,7 @@ npm run build:production
 - 菜单管理：配置系统菜单，操作权限，按钮权限标识等。
 - 部门管理：配置系统组织机构（公司、部门、小组），树结构展现支持数据权限。
 
-:huammer: 组件相关
+:hammer: 组件相关
 
 - 二次封装 antd 表格组件
 - 二次封装 antd 表单组件
@@ -158,9 +158,9 @@ npm run build:production
 
 - [vite-react-ts-admin](https://github.com/visionwuwu/vite-react-ts-admin)
 
-## 后台整合示例
+## 后台
 
-- [lamp-cloud](https://github.com/zuihou/lamp-cloud) - 基于 SpringCloud Alibaba 的微服务中后台快速开发平台
+- 采用 Nestjs、mongodb 开发。
 
 ## 维护者
 
